@@ -6,6 +6,7 @@ const PATHNAME_PREFIX = "https://api.themoviedb.org/3";
 export const MovieSearchService = {
     PATHNAME_PREFIX,
     GetMovieDataByID,
+    GetPopularMovies,
 };
 
 const api_key = "97a0ecdf541080bcb45926a6ba81b292";
@@ -15,7 +16,7 @@ async function GetMovieDataByID(movieID: string) {
     const res = await axios.get(url, {
         params: {
             api_key,
-            language: "zh-TW",
+            language: "en-US",
         },
     });
 
@@ -23,3 +24,18 @@ async function GetMovieDataByID(movieID: string) {
 }
 
 GetMovieDataByID.fnName = "MovieSearchService.GetMovieDataByID";
+
+async function GetPopularMovies() {
+    const url = urlJoin(PATHNAME_PREFIX, "movie/popular");
+    console.log(url);
+    const res = await axios.get(url, {
+        params: {
+            api_key,
+            language: "en-US",
+            page: 1,
+        },
+    });
+    return res.data;
+}
+
+GetPopularMovies.fnName = "MovieSearchService.GetPopularMovies";
