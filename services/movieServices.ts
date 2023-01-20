@@ -7,6 +7,7 @@ export const MovieSearchService = {
     PATHNAME_PREFIX,
     GetMovieDataByID,
     GetPopularMovies,
+    GetAllGernes,
 };
 
 const api_key = "97a0ecdf541080bcb45926a6ba81b292";
@@ -27,7 +28,6 @@ GetMovieDataByID.fnName = "MovieSearchService.GetMovieDataByID";
 
 async function GetPopularMovies() {
     const url = urlJoin(PATHNAME_PREFIX, "movie/popular");
-    console.log(url);
     const res = await axios.get(url, {
         params: {
             api_key,
@@ -39,3 +39,16 @@ async function GetPopularMovies() {
 }
 
 GetPopularMovies.fnName = "MovieSearchService.GetPopularMovies";
+
+async function GetAllGernes() {
+    const url = urlJoin(PATHNAME_PREFIX, "genre/movie/list");
+    const res = await axios.get(url, {
+        params: {
+            api_key,
+            language: "en-US",
+        },
+    });
+    return res.data;
+}
+
+GetAllGernes.fnName = "MovieSearchService.GetAllGernes";
