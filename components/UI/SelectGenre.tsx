@@ -1,9 +1,8 @@
 import React from 'react';
 import { styled } from "@mui/material/styles";
 import {
-    Autocomplete, TextField,
+    Autocomplete, TextField
 } from "@mui/material";
-
 
 const StyledAutoComplete = styled(Autocomplete)({
     "& .MuiInputLabel-outlined:not(.MuiInputLabel-shrink)": {
@@ -43,12 +42,15 @@ const StyledAutoComplete = styled(Autocomplete)({
 
 const SelectGenre = (props: any) => {
 
+
     return (
         <>
             <StyledAutoComplete
                 fullWidth={props.fullWidth}
                 options={props.options}
+                onChange={props.onChange}
                 getOptionLabel={props.getOptionLabel}
+                noOptionsText="no option"
                 sx={props.sx}
                 renderInput={(params) => <TextField {...params} label={props.label} />}
             />

@@ -8,6 +8,7 @@ export const MovieSearchService = {
     GetMovieDataByID,
     GetPopularMovies,
     GetAllGernes,
+    FilterMovieByGenre,
 };
 
 const api_key = "97a0ecdf541080bcb45926a6ba81b292";
@@ -52,3 +53,22 @@ async function GetAllGernes() {
 }
 
 GetAllGernes.fnName = "MovieSearchService.GetAllGernes";
+
+async function FilterMovieByGenre(genre?: number) {
+    const url = urlJoin(PATHNAME_PREFIX, "discover/movie");
+    const res = await axios.get(url, {
+        params: {
+            api_key,
+            language: "en-US",
+            sort_by: "popularity.desc",
+            include_adult: false,
+            include_video: false,
+            page: 1,
+            with_genres: genre,
+        },
+    });
+
+    return res.data;
+}
+
+FilterMovieByGenre.fnName = "MovieSearchService.FilterMovieByGenre";
