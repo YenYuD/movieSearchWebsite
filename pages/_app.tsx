@@ -3,8 +3,10 @@ import type { AppProps } from "next/app";
 import Footer from "../components/movieWebSites/homePage/Footer";
 import "@fontsource/antic-didone";
 import Layout from "../components/Layouts/Layout";
-import { QueryClient, QueryClientProvider } from "react-query";
+import { QueryClient, QueryClientProvider, Hydrate } from "react-query";
 import { createTheme, ThemeProvider } from "@mui/material";
+import { useState } from "react";
+
 
 export default function App({ Component, pageProps }: AppProps) {
   const theme = createTheme({
@@ -21,17 +23,19 @@ export default function App({ Component, pageProps }: AppProps) {
     },
   });
 
-  const client = new QueryClient();
+  const [queryClient] = useState(() => new QueryClient())
 
   return (
     <>
-      <QueryClientProvider client={client}>
-        <ThemeProvider theme={theme}>
-          <Layout>
-            <Component {...pageProps} />
-            <Footer />
-          </Layout>
-        </ThemeProvider>
+      <QueryClientProvider client={queryClient}>
+        <Hydrate state={pageProps.dehydratedState}>
+          <ThemeProvider theme={theme}>
+            <Layout>
+              <Component {...pageProps} />
+              <Footer />
+            </Layout>
+          </ThemeProvider>
+        </Hydrate>
       </QueryClientProvider>
     </>
   );

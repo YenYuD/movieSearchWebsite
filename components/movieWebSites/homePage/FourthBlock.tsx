@@ -4,7 +4,7 @@ import React from 'react'
 const FourthBlock = () => {
     return (
         <>
-            <Typography>LET'S GET STARTED. </Typography>
+            <Typography>LET`&apos;`S GET STARTED. </Typography>
         </>
     )
 }

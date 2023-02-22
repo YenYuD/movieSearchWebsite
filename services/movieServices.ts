@@ -11,7 +11,7 @@ export const MovieSearchService = {
     FilterMovieByGenre,
 };
 
-const api_key = "97a0ecdf541080bcb45926a6ba81b292";
+export const api_key = "97a0ecdf541080bcb45926a6ba81b292";
 
 async function GetMovieDataByID(movieID: string) {
     const url = urlJoin(PATHNAME_PREFIX, "movie", movieID);
@@ -21,7 +21,6 @@ async function GetMovieDataByID(movieID: string) {
             language: "en-US",
         },
     });
-
     return res.data;
 }
 

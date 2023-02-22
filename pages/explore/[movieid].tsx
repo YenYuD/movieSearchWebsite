@@ -1,29 +1,38 @@
 import React, { use } from "react";
 import { useRouter } from "next/router";
 import { MovieSearchService } from "../../services/movieServices";
-import { useQuery } from "react-query";
+import { useQuery, dehydrate, QueryClient } from "react-query";
 import { Chip, Divider, Grid, Typography } from "@mui/material";
 import Image from "next/image";
+import { GetStaticProps } from "next";
 
+const MovieDetailPage = (props: any) => {
 
-const MovieDetailPage = () => {
-
-    const router = useRouter();
-    const movieID = router.query.movieid?.toString();
+    const movieID = props.movieID;
     const backgroundImageURL = 'https://image.tmdb.org/t/p/original';
     const posterURL = 'https://image.tmdb.org/t/p/w500';
 
     const qkMovieData = [MovieSearchService.GetMovieDataByID.fnName, movieID];
-    const qryMovieData = useQuery({
-        queryKey: qkMovieData,
-        queryFn: async () => {
-            const data = await MovieSearchService.GetMovieDataByID(movieID!);
-            return data;
-        },
-        enabled: !!movieID
-    });
+    // const qryMovieData = useQuery({
+    //     queryKey: qkMovieData,
+    //     queryFn: async () => {
+    //         const data = await MovieSearchService.GetMovieDataByID(movieID!);
+    //         return data;
+    //     },
+    //     enabled: !!movieID
+    // });
 
-    const movieDetailData = qryMovieData.data;
+    // const movieDetailData = qryMovieData.data;
+
+    const getMovieDataFn = async () => {
+        const data = await MovieSearchService.GetMovieDataByID(movieID!);
+        return data;
+    }
+
+    const { data: movieDetailData } = useQuery(qkMovieData, getMovieDataFn, { enabled: !!movieID });
+
+    if (!movieDetailData) return <div>no data!</div>
+
 
     const timeConvert = (n: number) => {
         const min = n % 60;
@@ -35,11 +44,9 @@ const MovieDetailPage = () => {
         }
     }
 
-    console.log(movieDetailData);
-
     return <>
-        {movieID ? <>
-            {movieDetailData && <Grid className="h-auto">
+        {movieID ?
+            <Grid className="h-auto">
                 <Grid className="relative pt-32">
                     <Image className="object-cover -z-10 brightness-50" src={`${backgroundImageURL}${movieDetailData.poster_path}`} alt="poster" fill />
                     <Grid className="h-screen z-10 w-3/4 m-auto bg-black/50 rounded-3xl  gap-8 p-9">
@@ -69,14 +76,52 @@ const MovieDetailPage = () => {
                             </Grid>
                         </Grid>
                         <Grid>
-
                         </Grid>
                     </Grid>
                 </Grid>
-            </Grid>}
-        </> : <div>movie not find!</div>}
+            </Grid>
+            : <div>movie not find!</div>}
 
     </>
 }
+
+export async function getStaticPaths() {
+
+    const res = await MovieSearchService.FilterMovieByGenre(28);
+
+    const path = res.results.map((item: any) => ({ params: { movieid: item.id.toString() } }))
+
+    return {
+        paths: path,
+        fallback: true
+    }
+
+}
+
+export async function getStaticProps(context: any) {
+    const { params } = context;
+
+    const movieID = params.movieid;
+
+    const queryClient = new QueryClient();
+
+    const qkMovieData = [MovieSearchService.GetMovieDataByID.fnName, movieID];
+
+    await queryClient.prefetchQuery(qkMovieData, async () => {
+        const data = await MovieSearchService.GetMovieDataByID(movieID!);
+        return data;
+    });
+
+    return {
+        props: {
+            dehydratedState: dehydrate(queryClient),
+            movieID
+        },
+        revalidate: 60
+    }
+
+}
+
+
 
 export default MovieDetailPage
