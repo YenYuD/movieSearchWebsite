@@ -1,4 +1,4 @@
-import { useQuery } from "react-query";
+import { dehydrate, QueryClient, useQuery } from "react-query";
 import { MovieSearchService } from "../../services/movieServices";
 import Image from "next/image";
 import {
@@ -19,21 +19,17 @@ interface movieDataType {
 }
 
 
-const Explore = () => {
+const Explore = (props: any) => {
 
-    const [genre, setGenre] = useState(28);
-    const [movieData, setMovieData] = useState([]);
+    const { dehydratedState: { queries: queryData } } = props;
+
+    const { state: { data: { genres: initalGenre } } } = queryData[0];
+
+    const { state: { data: { results: initalMovieData } } } = queryData[1];
+
+    const [genre, setGenre] = useState(initalGenre);
+    const [movieData, setMovieData] = useState(initalMovieData);
     const [loading, setLoading] = useState(false);
-
-
-    const qkMovieGernes = [MovieSearchService.GetAllGernes.fnName];
-    const qryAllGernes = useQuery({
-        queryKey: qkMovieGernes,
-        queryFn: async () => {
-            const data = await MovieSearchService.GetAllGernes();
-            return data;
-        },
-    });
 
     const qkFilterMoviesByGenres = [MovieSearchService.FilterMovieByGenre.fnName, genre];
     const qryFilterMoviesByGenres = useQuery({
@@ -49,10 +45,11 @@ const Explore = () => {
         }
     })
 
-
     const imageURL = "https://image.tmdb.org/t/p/w500";
 
-    const handleOnChange = (_: any, value: movieDataType) => setGenre(value.id);
+    const handleOnChange = (_: any, value: movieDataType) => {
+        setGenre(value.id)
+    };
 
 
     return (
@@ -62,7 +59,7 @@ const Explore = () => {
                     name='genre'
                     label='select genre'
                     fullWidth
-                    options={qryAllGernes.data && qryAllGernes.data.genres}
+                    options={genre}
                     getOptionLabel={(opt: any) => opt.name}
                     sx={{ width: 300 }}
                     onChange={handleOnChange}
@@ -101,5 +98,33 @@ const Explore = () => {
         </>
     );
 };
+
+export async function getStaticProps() {
+    const queryClient = new QueryClient();
+
+    const initalGenreID = 28
+
+    const qkMovieGernes = [MovieSearchService.GetAllGernes.fnName];
+
+    const qkFilterMoviesByGenres = [MovieSearchService.FilterMovieByGenre.fnName, initalGenreID];
+
+    await queryClient.prefetchQuery(qkMovieGernes, async () => {
+        const data = await MovieSearchService.GetAllGernes();
+        return data;
+    });
+
+    await queryClient.prefetchQuery(qkFilterMoviesByGenres, async () => {
+        const data = await MovieSearchService.FilterMovieByGenre(initalGenreID);
+        return data;
+    },);
+
+    return {
+        props: {
+            dehydratedState: dehydrate(queryClient),
+        },
+        revalidate: 60
+    }
+
+}
 
 export default Explore;

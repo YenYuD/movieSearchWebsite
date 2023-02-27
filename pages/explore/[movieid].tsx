@@ -13,16 +13,6 @@ const MovieDetailPage = (props: any) => {
     const posterURL = 'https://image.tmdb.org/t/p/w500';
 
     const qkMovieData = [MovieSearchService.GetMovieDataByID.fnName, movieID];
-    // const qryMovieData = useQuery({
-    //     queryKey: qkMovieData,
-    //     queryFn: async () => {
-    //         const data = await MovieSearchService.GetMovieDataByID(movieID!);
-    //         return data;
-    //     },
-    //     enabled: !!movieID
-    // });
-
-    // const movieDetailData = qryMovieData.data;
 
     const getMovieDataFn = async () => {
         const data = await MovieSearchService.GetMovieDataByID(movieID!);
@@ -87,12 +77,24 @@ const MovieDetailPage = (props: any) => {
 
 export async function getStaticPaths() {
 
-    const res = await MovieSearchService.FilterMovieByGenre(28);
 
-    const path = res.results.map((item: any) => ({ params: { movieid: item.id.toString() } }))
+    const { genres: allGenres } = await MovieSearchService.GetAllGernes();
+
+    const paths: { params: { movieid: string } }[] = [];
+
+    await Promise.all(allGenres.map(async (item: any) => {
+        const { results } = await MovieSearchService.FilterMovieByGenre(item.id);
+
+        for (let i of results) {
+            paths.push({ params: { movieid: i.id.toString() } })
+        }
+
+    }));
+
+
 
     return {
-        paths: path,
+        paths: paths,
         fallback: true
     }
 

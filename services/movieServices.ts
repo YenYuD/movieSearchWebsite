@@ -65,6 +65,7 @@ async function FilterMovieByGenre(genre?: number) {
             page: 1,
             with_genres: genre,
         },
+        headers: { "Accept-Encoding": "gzip,deflate,compress" },
     });
 
     return res.data;
