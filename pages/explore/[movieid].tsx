@@ -9,8 +9,8 @@ import { GetStaticProps } from "next";
 const MovieDetailPage = (props: any) => {
 
     const movieID = props.movieID;
-    const backgroundImageURL = 'https://image.tmdb.org/t/p/original';
-    const posterURL = 'https://image.tmdb.org/t/p/w500';
+    const backgroundImageURL = process.env.NEXT_PUBLIC_BG_IMAGE_URL;
+    const posterURL = process.env.NEXT_PUBLIC_POSTER_URL;
 
     const qkMovieData = [MovieSearchService.GetMovieDataByID.fnName, movieID];
 
@@ -77,7 +77,6 @@ const MovieDetailPage = (props: any) => {
 
 export async function getStaticPaths() {
 
-
     const { genres: allGenres } = await MovieSearchService.GetAllGernes();
 
     const paths: { params: { movieid: string } }[] = [];
@@ -90,8 +89,6 @@ export async function getStaticPaths() {
         }
 
     }));
-
-
 
     return {
         paths: paths,

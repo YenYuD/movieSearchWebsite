@@ -11,7 +11,7 @@ export const MovieSearchService = {
     FilterMovieByGenre,
 };
 
-export const api_key = "97a0ecdf541080bcb45926a6ba81b292";
+export const api_key = process.env.NEXT_PUBLIC_REACT_APP_API_KEY;
 
 async function GetMovieDataByID(movieID: string) {
     const url = urlJoin(PATHNAME_PREFIX, "movie", movieID);
@@ -65,7 +65,6 @@ async function FilterMovieByGenre(genre?: number) {
             page: 1,
             with_genres: genre,
         },
-        headers: { "Accept-Encoding": "gzip,deflate,compress" },
     });
 
     return res.data;
