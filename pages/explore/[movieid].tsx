@@ -79,10 +79,11 @@ export async function getStaticPaths() {
 
     const { genres: allGenres } = await MovieSearchService.GetAllGernes();
 
+
     const paths: { params: { movieid: string } }[] = [];
 
     await Promise.all(allGenres.map(async (item: any) => {
-        const { results } = await MovieSearchService.FilterMovieByGenre(item.id);
+        const { results } = await MovieSearchService.FilterMovieByGenre(1, item.id);
 
         for (let i of results) {
             paths.push({ params: { movieid: i.id.toString() } })
@@ -111,6 +112,8 @@ export async function getStaticProps(context: any) {
         return data;
     });
 
+    if (!movieID) return { notFound: true }
+
     return {
         props: {
             dehydratedState: dehydrate(queryClient),
@@ -120,6 +123,7 @@ export async function getStaticProps(context: any) {
     }
 
 }
+
 
 
 

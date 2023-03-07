@@ -53,7 +53,7 @@ async function GetAllGernes() {
 
 GetAllGernes.fnName = "MovieSearchService.GetAllGernes";
 
-async function FilterMovieByGenre(genre?: number) {
+async function FilterMovieByGenre(page: number = 1, genre?: number) {
     const url = urlJoin(PATHNAME_PREFIX, "discover/movie");
     const res = await axios.get(url, {
         params: {
@@ -62,7 +62,7 @@ async function FilterMovieByGenre(genre?: number) {
             sort_by: "popularity.desc",
             include_adult: false,
             include_video: false,
-            page: 1,
+            page: page,
             with_genres: genre,
         },
     });
