@@ -10,8 +10,10 @@ import {
 } from "@mui/material";
 import Link from "next/link";
 import SelectGenre from "../../components/UI/SelectGenre";
-import { Fragment, useState } from "react";
+import { Fragment, useCallback, useEffect, useRef, useState } from "react";
 import { getPlaiceholder } from "plaiceholder";
+import Head from "next/head";
+import CircularProgress from '@mui/material/CircularProgress';
 
 interface movieDataType {
     id: number,
@@ -30,14 +32,14 @@ const Explore = (props: any) => {
 
     const { state: { data: { genres: initalGenre } } } = queryData ? queryData[0] : [];
 
-    const { state: { data: initalMovieData } } = queryData ? queryData[1] : [];
-
+    // const { state: { data: initalMovieData } } = queryData ? queryData[1] : [];
 
     const [genre, setGenre] = useState<number>(initalGenre && initalGenre[0].id);
-    const [movieData, setMovieData] = useState(initalMovieData);
 
 
     const qkFilterMoviesByGenres = [MovieSearchService.FilterMovieByGenre.fnName, genre];
+
+    const loader = useRef(null);
 
 
     const {
@@ -55,7 +57,6 @@ const Explore = (props: any) => {
         qkFilterMoviesByGenres,
         async ({ pageParam = 1 }) => {
             const data = await MovieSearchService.FilterMovieByGenre(pageParam, genre);
-            if (data) setMovieData(data.results);
             return data;
         },
         {
@@ -65,6 +66,26 @@ const Explore = (props: any) => {
             },
         }
     )
+
+    const handleObserver = useCallback((entries: any) => {
+
+        const target = entries[0];
+        if (target.isIntersecting) {
+            console.log('fetching')
+            fetchNextPage();
+        }
+    }, [fetchNextPage]);
+
+    useEffect(() => {
+        const option = {
+            root: null,
+            rootMargin: "20px",
+            threshold: 0
+        };
+        const observer = new IntersectionObserver(handleObserver, option);
+        if (loader.current) observer.observe(loader.current);
+
+    }, [handleObserver, genre]);
 
 
     const imageURL = process.env.NEXT_PUBLIC_IMAGE_URL;
@@ -78,7 +99,13 @@ const Explore = (props: any) => {
 
     return (
         <>
-            <Grid className="pt-40 flex px-8">
+            <Head>
+                <title>Explore movies</title>
+                <meta name="description" content="A website for you to explore the latest movies with all kinds of genre..." />
+                <meta charSet="UTF-8" />
+                <link rel="icon" type="image/png" href="/images/popcorn.png" />
+            </Head>
+            <Grid className="pt-40 flex px-16">
                 <SelectGenre
                     name='genre'
                     label='select genre'
@@ -89,7 +116,7 @@ const Explore = (props: any) => {
                     onChange={handleOnChange}
                 />
             </Grid>
-            <Grid className="pt-20 px-40  flex flex-wrap  justify-center gap-4">
+            <Grid className="pt-20 px-16  flex flex-wrap  justify-center gap-4">
                 {data?.pages ? data.pages.map((group: any, i: number) => {
                     return (
                         <Fragment key={i}>
@@ -124,10 +151,10 @@ const Explore = (props: any) => {
                     );
                 }) : <div>Loading...</div>}
             </Grid>
-            <Grid className="flex justify-center">
-                <Button onClick={() => {
-                    fetchNextPage()
-                }} disabled={!hasNextPage} variant="outlined" color="primary" className="my-10 tracking-widest font-bold">{hasNextPage ? 'Load more' : "there's no more"}</Button>
+            <Grid className="flex justify-center py-6" ref={loader}>
+            </Grid>
+            <Grid className="flex justify-center py-6">
+                {isFetchingNextPage && <CircularProgress color="primary" />}
             </Grid>
         </>
     );

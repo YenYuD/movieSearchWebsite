@@ -6,6 +6,7 @@ import Layout from "../components/Layouts/Layout";
 import { QueryClient, QueryClientProvider, Hydrate } from "react-query";
 import { createTheme, ThemeProvider } from "@mui/material";
 import { useState } from "react";
+import Head from "next/head";
 
 
 export default function App({ Component, pageProps }: AppProps) {
@@ -31,6 +32,13 @@ export default function App({ Component, pageProps }: AppProps) {
         <Hydrate state={pageProps.dehydratedState}>
           <ThemeProvider theme={theme}>
             <Layout>
+              <Head>
+                <title>Movie Search Website</title>
+                <meta name="description" content="A website for you to explore the latest movies with all kinds of genre..." />
+                <meta charSet="UTF-8" />
+                <meta name="viewport" content="width=device-width, initial-scale=1" />
+                <link rel="icon" type="image/png" href="/images/popcorn.png" />
+              </Head>
               <Component {...pageProps} />
               <Footer />
             </Layout>

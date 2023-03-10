@@ -1,4 +1,5 @@
 import axios from 'axios';
+import Head from 'next/head';
 import React, { useEffect, useState } from 'react'
 import useSWR from 'swr';
 
@@ -43,14 +44,28 @@ const WatchList = (props: PropsType) => {
     }, [data])
 
 
-    if (loading && !user) return <div>Loading...</div>
+    if (loading && !user) return <><Head>
+        <title>My WatchList</title>
+        <meta name="description" content="A website for you to explore the latest movies with all kinds of genre..." />
+        <meta charSet="UTF-8" />
+        <link rel="icon" type="image/png" href="/images/popcorn.png" />
+    </Head><div>Loading...</div></>
 
     if (error) return <div>Oops! something went wrong.</div>
 
     return (
-        <div>{user.map((v: any) => {
-            return <li key={v.userID}>{v.username}</li>
-        })}</div>
+
+        <>
+            <Head>
+                <title>My WatchList</title>
+                <meta name="description" content="A website for you to explore the latest movies with all kinds of genre..." />
+                <meta charSet="UTF-8" />
+                <link rel="icon" type="image/png" href="/images/popcorn.png" />
+            </Head>
+            <div>{user.map((v: any) => {
+                return <li key={v.userID}>{v.username}</li>
+            })}</div>
+        </>
     )
 }
 

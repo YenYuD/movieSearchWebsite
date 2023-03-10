@@ -63,7 +63,7 @@ async function FilterMovieByGenre(page: number = 1, genre?: number) {
             include_adult: false,
             include_video: false,
             page: page,
-            with_genres: genre,
+            with_genres: genre
         },
     });
 
