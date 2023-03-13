@@ -1,7 +1,9 @@
-import { Box, Grid, TextField } from '@mui/material'
+import { Box, Grid, IconButton, TextField } from '@mui/material'
 import React from 'react'
 import { styled } from '@mui/material/styles';
-import { Controller } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
+import HighlightOffOutlinedIcon from '@mui/icons-material/HighlightOffOutlined';
+import { getValue } from '@mui/system';
 
 const CssTextField = styled(TextField)(({ theme }) => ({
     '& .MuiInputLabel-root': {
@@ -37,6 +39,8 @@ const CssTextField = styled(TextField)(({ theme }) => ({
 }));
 
 const FormInput = (props: any) => {
+
+
     return (
         <>
             <Controller
@@ -51,9 +55,10 @@ const FormInput = (props: any) => {
                         type={props.type}
                         required={props.required}
                         label={props.label}
-                        // value={value}
-                        // defaultValue={props.defaultValue}
+                        value={value}
+                        defaultValue={props.defaultValue}
                         placeholder={props.placeHolder}
+                        InputProps={props.InputProps}
                     />
                 )}
             />

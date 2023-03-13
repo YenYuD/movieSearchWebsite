@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import InputUnstyled, { InputUnstyledProps } from '@mui/base/InputUnstyled';
 import { styled } from '@mui/system';
 
@@ -58,13 +58,13 @@ const StyledTextareaElement = styled('textarea', {
     !['ownerState', 'minRows', 'maxRows'].includes(prop.toString()),
 })(
   ({ theme }) => `
-  width: 320px;
+  // width: 320px;
   letter-spacing:0.2rem;
   font-size: 0.875rem;
   font-weight: 400;
   line-height: 1.5;
   padding: 12px;
-  border-radius: 12px;
+  border-radius: 5px;
   color: ${theme.palette.mode === 'dark' ? '#fff' : '#fff'};
   background: transparent;
   border: 1px solid #fff;
@@ -92,6 +92,7 @@ const CustomInput = React.forwardRef(function CustomInput(
 ) {
   return (
     <InputUnstyled
+
       slots={{ input: StyledInputElement, textarea: StyledTextareaElement }}
       {...props}
       ref={ref}
@@ -102,6 +103,6 @@ const CustomInput = React.forwardRef(function CustomInput(
 export default function UnstyledInputBasic(props: any) {
 
   return (
-    <CustomInput aria-label="Demo input" className={props.className} minRows={8} multiline={props.multiline} placeholder={props.placeholder} />
+    <CustomInput onChange={props.onChange} value={props.value} aria-label="Demo input" className={props.className} minRows={8} multiline={props.multiline} placeholder={props.placeholder} />
   );
 }

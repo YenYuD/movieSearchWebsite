@@ -6,6 +6,8 @@ import Image from "next/image";
 import Head from "next/head";
 import SuscribeInput from "../../components/UI/SuscribeInput";
 import RateMovies from "../../components/UI/RateMovies";
+import Comment from "../../components/UI/Comments";
+import { buildFeedbackPath, extractFeedback } from "../api/feedback";
 
 const MovieDetailPage = (props: any) => {
 
@@ -13,6 +15,8 @@ const MovieDetailPage = (props: any) => {
     const [showSuccess, setShowSuccess] = useState(false);
 
     const movieID = props.movieID;
+
+    const { comments } = props;
 
     const backgroundImageURL = process.env.NEXT_PUBLIC_BG_IMAGE_URL;
     const posterURL = process.env.NEXT_PUBLIC_POSTER_URL;
@@ -79,8 +83,13 @@ const MovieDetailPage = (props: any) => {
                     <Divider className="w-full before:border-t-stone-50 after:border-t-stone-50">
                         COMMENTS ABOUT THE MOVIE
                     </Divider>
-                    <Grid className="flex items-stretch gap-6 justify-between">
-                        <RateMovies />
+                    <Grid className="flex flex-col gap-3 justify-between max-h-[40vh] overflow-y-auto">
+                        {comments.map((v: any) => {
+                            return <Comment key={v.id} id={v.id} rateValue={v.rateValue} comment={v.comment} />
+                        })}
+                    </Grid>
+                    <Grid className="flex items-stretch gap-6 justify-between flex-wrap lg:flex-nowrap ">
+                        <RateMovies movieID={movieID} />
                         <SuscribeInput showAlert={showAlert} setShowAlert={setShowAlert} showSuccess={showSuccess} setShowSuccess={setShowSuccess} />
                     </Grid>
 
@@ -130,10 +139,14 @@ export async function getStaticProps(context: any) {
 
     if (!movieID) return { notFound: true }
 
+    const filePath = buildFeedbackPath();
+    const data = extractFeedback(filePath);
+
     return {
         props: {
             dehydratedState: dehydrate(queryClient),
-            movieID
+            movieID,
+            comments: data
         },
         revalidate: 60
     }

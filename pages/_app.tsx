@@ -22,6 +22,7 @@ export default function App({ Component, pageProps }: AppProps) {
         main: "#b3e5fc",
       },
     },
+
   });
 
   const [queryClient] = useState(() => new QueryClient())

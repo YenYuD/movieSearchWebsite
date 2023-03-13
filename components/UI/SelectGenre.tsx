@@ -1,43 +1,26 @@
 import React from 'react';
 import { styled } from "@mui/material/styles";
 import {
-    Autocomplete, TextField
+    Autocomplete, Box, FormControl, InputLabel, MenuItem, Select, TextField
 } from "@mui/material";
 
-const StyledAutoComplete = styled(Autocomplete)({
-    "& .MuiInputLabel-outlined:not(.MuiInputLabel-shrink)": {
-        color: '#ffffff'
+
+
+const StyledSelect = styled(Select)({
+    '& .MuiOutlinedInput-notchedOutline': {
+        borderColor: 'white'
     },
-    "& .MuiInputLabel-outlined": {
-        color: '#ffffff'
+    '& .MuiSvgIcon-root': {
+        color: 'white'
     },
-    "&.Mui-focused .MuiInputLabel-outlined": {
-        color: "#ffffff"
+    '& .MuiSelect-outlined': {
+        color: 'white',
+        borderColor: 'white'
     },
-    "& .MuiAutocomplete-inputRoot": {
-        color: "#ffffff",
-        '&[class*="MuiOutlinedInput-root"] .MuiAutocomplete-input:first-of-type': {
-            // Default left padding is 6px
-            paddingLeft: '30px'
-        },
-        "& .MuiOutlinedInput-notchedOutline": {
-            borderColor: "#ffffff",
-            borderRadius: '30px!important'
-        },
-        "&:hover .MuiOutlinedInput-notchedOutline": {
-            borderColor: "#ffffff",
-        },
-        "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
-            borderColor: "#ffffff",
-            borderWidth: '1px'
-        }
+    '&:hover .MuiOutlinedInput-notchedOutline': {
+        borderColor: 'white'
     },
-    "& .MuiAutocomplete-endAdornment": {
-        "& .MuiSvgIcon-root": {
-            color: '#ffffff'
-        }
-    }
-});
+})
 
 
 const SelectGenre = (props: any) => {
@@ -45,15 +28,24 @@ const SelectGenre = (props: any) => {
 
     return (
         <>
-            <StyledAutoComplete
-                fullWidth={props.fullWidth}
-                options={props.options}
-                onChange={props.onChange}
-                getOptionLabel={props.getOptionLabel}
-                noOptionsText="no option"
-                sx={props.sx}
-                renderInput={(params) => <TextField {...params} label={props.label} />}
-            />
+            <Box sx={{ minWidth: 120 }} className="px-3">
+                <FormControl fullWidth>
+                    <InputLabel className="text-white pl-2" id="demo-simple-select-label">{props.name}</InputLabel>
+                    <StyledSelect
+                        labelId="demo-simple-select-label"
+                        id="demo-simple-select"
+                        value={props.value}
+                        label={props.label}
+                        onChange={props.onChange}
+                        sx={props.sx}
+                    >
+                        {props.options.map((item: any) => {
+                            return (<MenuItem key={item.id} value={item.id}>{item.name}</MenuItem>)
+                        })}
+                    </StyledSelect>
+                </FormControl>
+            </Box>
+
         </>
     )
 }

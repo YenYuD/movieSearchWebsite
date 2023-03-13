@@ -5,6 +5,7 @@ import {
     Autocomplete,
     Button,
     Grid,
+    IconButton,
     TextField,
     Typography,
 } from "@mui/material";
@@ -14,32 +15,51 @@ import { Fragment, useCallback, useEffect, useRef, useState } from "react";
 import { getPlaiceholder } from "plaiceholder";
 import Head from "next/head";
 import CircularProgress from '@mui/material/CircularProgress';
+import FormInput from "../../components/UI/FormInput";
+import { useForm } from "react-hook-form";
+import HighlightOffOutlinedIcon from '@mui/icons-material/HighlightOffOutlined';
 
-interface movieDataType {
-    id: number,
-    name: string
-}
-
-interface genreType {
-    id: number,
-    name: string
-}
 
 
 const Explore = (props: any) => {
+
+    const form = useForm({
+        defaultValues: {
+            keyword: ''
+        }
+    });
 
     const { dehydratedState: { queries: queryData } } = props;
 
     const { state: { data: { genres: initalGenre } } } = queryData ? queryData[0] : [];
 
-    // const { state: { data: initalMovieData } } = queryData ? queryData[1] : [];
 
     const [genre, setGenre] = useState<number>(initalGenre && initalGenre[0].id);
+    const [searchMode, setSearchMode] = useState(false);
+    const fallbackSrc = '/images/404.jpg'
 
+    const keyword = form.watch('keyword')
 
     const qkFilterMoviesByGenres = [MovieSearchService.FilterMovieByGenre.fnName, genre];
+    const qkSearchMovie = [MovieSearchService.SearchMovie, keyword];
 
     const loader = useRef(null);
+
+    const { data: movieSearchData } = useQuery(qkSearchMovie, async () => {
+        const res = await MovieSearchService.SearchMovie(keyword);
+        return res;
+    }, { enabled: !!searchMode });
+
+    useEffect(() => {
+        if (keyword) {
+            setSearchMode(true)
+        }
+
+        if (!keyword) {
+            setSearchMode(false)
+        }
+
+    }, [keyword])
 
 
     const {
@@ -71,7 +91,7 @@ const Explore = (props: any) => {
 
         const target = entries[0];
         if (target.isIntersecting) {
-            console.log('fetching')
+
             fetchNextPage();
         }
     }, [fetchNextPage]);
@@ -79,22 +99,23 @@ const Explore = (props: any) => {
     useEffect(() => {
         const option = {
             root: null,
-            rootMargin: "20px",
+            rootMargin: "40px",
             threshold: 0
         };
+
         const observer = new IntersectionObserver(handleObserver, option);
-        if (loader.current) observer.observe(loader.current);
+        if (loader.current) { observer.observe(loader.current); }
 
     }, [handleObserver, genre]);
 
 
     const imageURL = process.env.NEXT_PUBLIC_IMAGE_URL;
 
-    const handleOnChange = (_: any, value: movieDataType) => {
-        setGenre(value.id)
+    const handleGenreOnChange = (_: any, value: any) => {
+        setGenre(value.props.value);
     };
 
-    if (!data) return <div>Loading...</div>
+
 
 
     return (
@@ -105,7 +126,25 @@ const Explore = (props: any) => {
                 <meta charSet="UTF-8" />
                 <link rel="icon" type="image/png" href="/images/popcorn.png" />
             </Head>
-            <Grid className="pt-40 flex px-16">
+            <Grid className="pt-40 flex px-16 items-center justify-center">
+                <FormInput
+                    className="m-3 w-1/2"
+                    name="keyword"
+                    control={form.control}
+                    label="search movie"
+                    placeHolder="search movie"
+                    InputProps={{
+                        endAdornment: (
+                            <IconButton
+                                // sx={{ visibility: value ? "visible" : "hidden" }}
+                                onClick={() => { form.reset() }}
+                            >
+                                <HighlightOffOutlinedIcon color="primary" />
+                            </IconButton>
+                        ),
+                    }}
+                />
+                <Typography component={'p'} color="primary" className="text-center" >or</Typography>
                 <SelectGenre
                     name='genre'
                     label='select genre'
@@ -113,10 +152,10 @@ const Explore = (props: any) => {
                     options={initalGenre}
                     getOptionLabel={(opt: any) => opt.name}
                     sx={{ width: 300 }}
-                    onChange={handleOnChange}
+                    onChange={handleGenreOnChange}
                 />
             </Grid>
-            <Grid className="pt-20 px-16  flex flex-wrap  justify-center gap-4">
+            {!searchMode && <Grid className="pt-20 px-16  flex flex-wrap  justify-center gap-4">
                 {data?.pages ? data.pages.map((group: any, i: number) => {
                     return (
                         <Fragment key={i}>
@@ -150,11 +189,42 @@ const Explore = (props: any) => {
 
                     );
                 }) : <div>Loading...</div>}
-            </Grid>
-            <Grid className="flex justify-center py-6" ref={loader}>
-            </Grid>
+            </Grid>}
+            {searchMode && <Grid className="pt-20 px-16  flex flex-wrap  justify-center gap-4">
+                {!!movieSearchData && movieSearchData.results.map((item: any) => {
+                    return (
+                        (<Grid key={item.id} className="relative w-[calc((100%_-_3rem)/4)] pt-[37.57%]  transition-all overflow-hidden [&>img]:hover:brightness-50 [&>div]:hover:top-1/2 ">
+                            <Image
+                                {...item.placeholder
+                                }
+                                alt="poster"
+                                placeholder={item.hasOwnProperty('placeholder') && 'blur'}
+                                src={item.poster_path ? `${imageURL}${item.poster_path}` : fallbackSrc}
+                                fill
+                                className={`object-cover ${item.poster_path ? '' : "grayscale brightness-[0.4] object-right-top"} `}
+                            />
+
+                            <div className="absolute text-center w-full -bottom-36">
+                                <Typography>{item.title}</Typography>
+                                <Button
+                                    className="mt-10 tracking-widest font-bold"
+                                    color="primary"
+                                    variant="outlined"
+                                >
+                                    <Link href={`/explore/${item.id}`}>
+                                        view Detail
+                                    </Link>
+                                </Button>
+                            </div>
+                        </Grid>)
+                    )
+                }
+                )}
+            </Grid>}
             <Grid className="flex justify-center py-6">
                 {isFetchingNextPage && <CircularProgress color="primary" />}
+            </Grid>
+            <Grid className="flex justify-center py-6 loader" ref={loader}>
             </Grid>
         </>
     );

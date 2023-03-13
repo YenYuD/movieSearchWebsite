@@ -28,7 +28,7 @@ const SuscribeInput = (props: any) => {
 
     return (
         <Grid className=" flex-1 basis-1/2" >
-            <Card className="bg-transparent border-white  px-24 pt-0 overflow-visible flex flex-col justify-center" variant="outlined">
+            <Card className="bg-transparent h-full border-white  px-24 pt-0 overflow-visible flex flex-col justify-center" variant="outlined">
                 <Typography component="h6" color="primary" className="sm:text-3xl py-7 text-center  " >Suscribe us !</Typography>
                 <Box
                     component="form"

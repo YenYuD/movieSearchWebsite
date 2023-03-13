@@ -41,3 +41,8 @@ Authorization: Bearer <<access_token>>
 GET https://api.themoviedb.org/3/discover/movie?api_key=97a0ecdf541080bcb45926a6ba81b292&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_genres=28
 Content-Type: application/json;charset=charset=utf-8'
 Authorization: Bearer <<access_token>>
+
+###
+GET https://api.themoviedb.org/3/search/movie?api_key=97a0ecdf541080bcb45926a6ba81b292&language=en-US&query=harry%20potter&page=1&include_adult=false
+Content-Type: application/json;charset=charset=utf-8'
+Authorization: Bearer <<access_token>>

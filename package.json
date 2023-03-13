@@ -20,13 +20,13 @@
     "@mui/material": "^5.10.17",
     "@mui/styles": "^5.11.2",
     "@plaiceholder/next": "^2.5.0",
-    "@types/node": "18.11.9",
     "@types/react": "18.0.25",
     "@types/react-dom": "18.0.9",
     "axios": "^1.2.2",
     "dotenv": "^16.0.3",
     "eslint-config-next": "13.0.4",
     "gsap": "^3.11.3",
+    "mongodb": "^5.1.0",
     "next": "13.0.4",
     "plaiceholder": "^2.5.0",
     "react": "18.2.0",
@@ -41,6 +41,7 @@
     "url-join": "^5.0.0"
   },
   "devDependencies": {
+    "@types/node": "^18.15.0",
     "autoprefixer": "^10.4.13",
     "eslint": "^8.32.0",
     "eslint-plugin-react": "^7.32.1",

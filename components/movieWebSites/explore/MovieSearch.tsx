@@ -1,7 +1,7 @@
-import { styled, TextField } from '@mui/material'
+import { Autocomplete, styled, TextField } from '@mui/material'
 import React from 'react'
 
-const StyledTextField = styled(TextField)({
+const StyledAutoComplete = styled(Autocomplete)({
     "& .MuiInputLabel-outlined:not(.MuiInputLabel-shrink)": {
         color: '#ffffff'
     },
@@ -40,7 +40,11 @@ const StyledTextField = styled(TextField)({
 const MovieSearch = (props: any) => {
     return (
         <>
-            <StyledTextField id="outlined-basic" label={props.label} variant="outlined" />
+            <StyledAutoComplete
+                fullWidth={props.fullWidth}
+                onChange={props.onChange}
+                sx={props.sx}
+                renderInput={(params: any) => <TextField {...params} label={props.label} />} />
         </>
     )
 }

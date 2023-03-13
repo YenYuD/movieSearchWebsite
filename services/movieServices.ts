@@ -9,6 +9,7 @@ export const MovieSearchService = {
     GetPopularMovies,
     GetAllGernes,
     FilterMovieByGenre,
+    SearchMovie,
 };
 
 export const api_key = process.env.NEXT_PUBLIC_REACT_APP_API_KEY;
@@ -33,6 +34,7 @@ async function GetPopularMovies() {
             api_key,
             language: "en-US",
             page: 1,
+            include_adult: false,
         },
     });
     return res.data;
@@ -63,7 +65,7 @@ async function FilterMovieByGenre(page: number = 1, genre?: number) {
             include_adult: false,
             include_video: false,
             page: page,
-            with_genres: genre
+            with_genres: genre,
         },
     });
 
@@ -71,3 +73,17 @@ async function FilterMovieByGenre(page: number = 1, genre?: number) {
 }
 
 FilterMovieByGenre.fnName = "MovieSearchService.FilterMovieByGenre";
+
+async function SearchMovie(keywords: string) {
+    const url = urlJoin(PATHNAME_PREFIX, "search/movie");
+    const res = await axios.get(url, {
+        params: {
+            api_key,
+            sort_by: "popularity.desc",
+            include_adult: false,
+            query: keywords,
+        },
+    });
+    return res.data;
+}
+SearchMovie.fnName = "MovieSearchService.SearchMovie";
