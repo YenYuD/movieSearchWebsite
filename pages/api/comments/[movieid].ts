@@ -1,6 +1,10 @@
 import { ObjectId } from "mongodb";
 import { NextApiRequest, NextApiResponse } from "next";
-import { connectDatabase, insertDocument } from "../../../helpers/db-util";
+import {
+    connectDatabase,
+    insertDocument,
+    getAllDocuments,
+} from "../../../helpers/db-util";
 
 interface Comment {
     _id?: ObjectId;
@@ -56,13 +60,17 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     if (req.method === "GET") {
         const db = client.db();
 
-        const documents = await db
-            .collection("comments")
-            .find({ movieID: movieID })
-            .sort({ _id: -1 }) //DESC
-            .toArray();
-
-        res.status(200).json({ comments: documents });
+        try {
+            const documents = await getAllDocuments(
+                client,
+                "comments",
+                { _id: -1 },
+                { movieID: movieID }
+            );
+            res.status(200).json({ comments: documents });
+        } catch (error) {
+            res.status(500).json({ message: "Getting comments failed." });
+        }
     }
 
     client.close();

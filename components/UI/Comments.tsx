@@ -12,7 +12,7 @@ const Comment = (props: any) => {
     return (
         <Card className="relative bg-transparent h-full items-center border-white p-2 flex shrink-0 grow-0 basis-[20%]" variant="outlined">
             <Grid className="flex flex-col  items-center shrink-0 basis-[35%] lg:basis-[20%]">
-                <Typography component={'p'} color="primary" className="">user{props.id}</Typography>
+                <Typography component={'p'} color="primary" className="">{props.id}</Typography>
                 <WhiteRatingIcon
                     // className="-translate-y-1"
                     size="small"

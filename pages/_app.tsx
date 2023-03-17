@@ -8,7 +8,7 @@ import { createTheme, ThemeProvider } from "@mui/material";
 import { useState } from "react";
 import Head from "next/head";
 import { ThemeOptions } from "@mui/material";
-
+import { NotificationContextProvider } from "../store/notification-context";
 
 export default function App({ Component, pageProps }: AppProps) {
   const theme: ThemeOptions = createTheme({
@@ -38,23 +38,25 @@ export default function App({ Component, pageProps }: AppProps) {
 
   return (
     <>
-      <QueryClientProvider client={queryClient}>
-        <Hydrate state={pageProps.dehydratedState}>
-          <ThemeProvider theme={theme}>
-            <Layout>
-              <Head>
-                <title>Movie Search Website</title>
-                <meta name="description" content="A website for you to explore the latest movies with all kinds of genre..." />
-                <meta charSet="UTF-8" />
-                <meta name="viewport" content="width=device-width, initial-scale=1" />
-                <link rel="icon" type="image/png" href="/images/popcorn.png" />
-              </Head>
-              <Component {...pageProps} />
-              <Footer />
-            </Layout>
-          </ThemeProvider>
-        </Hydrate>
-      </QueryClientProvider>
+      <NotificationContextProvider>
+        <QueryClientProvider client={queryClient}>
+          <Hydrate state={pageProps.dehydratedState}>
+            <ThemeProvider theme={theme}>
+              <Layout>
+                <Head>
+                  <title>Movie Search Website</title>
+                  <meta name="description" content="A website for you to explore the latest movies with all kinds of genre..." />
+                  <meta charSet="UTF-8" />
+                  <meta name="viewport" content="width=device-width, initial-scale=1" />
+                  <link rel="icon" type="image/png" href="/images/popcorn.png" />
+                </Head>
+                <Component {...pageProps} />
+                <Footer />
+              </Layout>
+            </ThemeProvider>
+          </Hydrate>
+        </QueryClientProvider>
+      </NotificationContextProvider>
     </>
   );
 }

@@ -19,3 +19,20 @@ export async function insertDocument(
 
     return result;
 }
+
+export async function getAllDocuments(
+    client: MongoClient,
+    collection: any,
+    sort = {},
+    filter = {}
+) {
+    const db = client.db();
+
+    const documents = await db
+        .collection(collection)
+        .find(filter)
+        .sort(sort)
+        .toArray();
+
+    return documents;
+}

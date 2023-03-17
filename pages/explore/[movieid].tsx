@@ -8,18 +8,28 @@ import SuscribeInput from "../../components/UI/SuscribeInput";
 import RateMovies from "../../components/UI/RateMovies";
 import Comment from "../../components/UI/Comments";
 import { getComments } from "../../libs/loadComments";
+import axios from "axios";
 
 const MovieDetailPage = (props: any) => {
 
     const { initialComments } = props;
-
-    console.log(initialComments);
 
     const [showAlert, setShowAlert] = useState(false);
     const [showSuccess, setShowSuccess] = useState(false);
     const [comments, setComments] = useState(initialComments);
 
     const movieID = props.movieID;
+
+    const updateComment = async () => {
+        await axios.get('/api/comments/' + movieID).then((res) => {
+            if (res.status === 200) {
+                setComments(res.data.comments);
+            }
+        })
+    }
+
+    useQuery(movieID, updateComment, { enabled: !!movieID })
+
 
     const backgroundImageURL = process.env.NEXT_PUBLIC_BG_IMAGE_URL;
     const posterURL = process.env.NEXT_PUBLIC_POSTER_URL;
