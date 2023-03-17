@@ -7,19 +7,28 @@ import { QueryClient, QueryClientProvider, Hydrate } from "react-query";
 import { createTheme, ThemeProvider } from "@mui/material";
 import { useState } from "react";
 import Head from "next/head";
+import { ThemeOptions } from "@mui/material";
 
 
 export default function App({ Component, pageProps }: AppProps) {
-  const theme = createTheme({
+  const theme: ThemeOptions = createTheme({
     typography: {
       fontFamily: ["Antic Didone", "serif"].join(","),
     },
     palette: {
+      mode: 'dark',
       primary: {
-        main: "#ffffff",
+        main: '#ffffff',
       },
       secondary: {
-        main: "#b3e5fc",
+        main: '#ffab40',
+      },
+      warning: {
+        main: '#ff6d00',
+      },
+      divider: 'rgba(255,235,238,0.6)',
+      info: {
+        main: '#81d4fa',
       },
     },
 

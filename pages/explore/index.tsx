@@ -167,7 +167,7 @@ const Explore = (props: any) => {
                                         alt="poster"
                                         placeholder={item.hasOwnProperty('placeholder') && 'blur'}
                                         src={`${imageURL}${item.poster_path}`}
-                                        fill
+                                        layout="fill"
                                         className="object-cover"
                                     />
 

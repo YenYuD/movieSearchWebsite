@@ -1,9 +1,8 @@
-import { Box, Grid, IconButton, TextField } from '@mui/material'
+import { TextField } from '@mui/material'
 import React from 'react'
 import { styled } from '@mui/material/styles';
-import { Controller, useForm } from 'react-hook-form';
-import HighlightOffOutlinedIcon from '@mui/icons-material/HighlightOffOutlined';
-import { getValue } from '@mui/system';
+import { Controller } from 'react-hook-form';
+
 
 const CssTextField = styled(TextField)(({ theme }) => ({
     '& .MuiInputLabel-root': {
@@ -22,6 +21,14 @@ const CssTextField = styled(TextField)(({ theme }) => ({
     },
     '& .MuiInput-underline:after': {
         borderBottomColor: theme.palette.primary.light,
+    },
+    '& .Mui-disabled': {
+        color: theme.palette.primary.light,
+        borderColor: theme.palette.primary.light,
+    },
+    '& > .MuiInputBase-root-MuiOutlinedInput-root.Mui-disabled ': {
+        color: theme.palette.primary.light,
+        borderColor: theme.palette.primary.light,
     },
     '& .MuiOutlinedInput-root': {
         '& fieldset': {
@@ -59,6 +66,15 @@ const FormInput = (props: any) => {
                         defaultValue={props.defaultValue}
                         placeholder={props.placeHolder}
                         InputProps={props.InputProps}
+                        disabled={props.disabled}
+                        sx={{
+                            "& .MuiInputBase-input.Mui-disabled": {
+                                WebkitTextFillColor: "#ffffff",
+                            },
+                            '& .MuiInputBase-input.Mui-disabled > *': {
+                                color: '#ffffff'
+                            }
+                        }}
                     />
                 )}
             />

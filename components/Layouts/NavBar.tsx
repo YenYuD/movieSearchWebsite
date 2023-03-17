@@ -1,6 +1,5 @@
 import React from "react";
 import Link from "next/link";
-import ArrowForwardRoundedIcon from '@mui/icons-material/ArrowForwardRounded';
 
 const NavBar = () => {
     return (
@@ -25,7 +24,7 @@ const NavBar = () => {
                 <div>
                     <ul className=" pt-[6px] text-transparent bg-gradient-to-r from-sky-100 to-sky-200 bg-clip-text lg: text-lg">
                         <li>
-                            <Link href="/Login">LOGIN <ArrowForwardRoundedIcon color="primary" fontSize="small" className="translate-y-[-1px]" />  </Link>
+                            <Link href="/login">LOGIN</Link>
                         </li>
                     </ul>
                 </div>

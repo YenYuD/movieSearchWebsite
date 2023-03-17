@@ -11,8 +11,7 @@ const ThirdBlock = () => {
                 <Image
                     src={blurImage}
                     alt="blurImage"
-
-                    className="rotate-90 w-[20vw] absolute left-1/2 right-1/2 -translate-x-1/2 -translate-y-24"
+                    className="third rotate-90 w-[20vw] absolute left-1/2 right-1/2 -translate-x-1/2 -translate-y-24"
                 />
                 <Typography
                     variant="h2"

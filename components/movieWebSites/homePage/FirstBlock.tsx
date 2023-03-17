@@ -1,8 +1,5 @@
 import React from "react";
-import Image from "next/image";
-import filmCamera from "/public//images/thomas-william-4qGbMEZb56c-unsplash.jpg";
-import { Button, createTheme, Grid, Typography } from "@mui/material";
-import { url } from "inspector";
+import { Button, Grid, Typography } from "@mui/material";
 import Link from "next/link";
 
 

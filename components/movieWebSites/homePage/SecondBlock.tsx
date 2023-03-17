@@ -17,10 +17,11 @@ const SecondBlock = () => {
                         repudiandae qui impedit doloremque aspernatur?
                     </Typography>
                     <Image
-                        className="self-center absolute -z-10 flex-none"
+                        className=" second self-center absolute -z-10 flex-none"
                         src={filmImage}
                         alt="filmImage"
                         width={500}
+                        height={500}
                     />
                     <Typography className="w-1/3 self-end  -translate-x-44">
                         Lorem ipsum dolor sit amet consectetur adipisicing elit.

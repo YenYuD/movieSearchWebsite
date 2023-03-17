@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { MovieSearchService } from "../../services/movieServices";
 import { useQuery, dehydrate, QueryClient } from "react-query";
 import { Chip, Divider, Grid, Typography } from "@mui/material";
@@ -7,16 +7,19 @@ import Head from "next/head";
 import SuscribeInput from "../../components/UI/SuscribeInput";
 import RateMovies from "../../components/UI/RateMovies";
 import Comment from "../../components/UI/Comments";
-import { buildFeedbackPath, extractFeedback } from "../api/feedback";
+import { getComments } from "../../libs/loadComments";
 
 const MovieDetailPage = (props: any) => {
 
+    const { initialComments } = props;
+
+    console.log(initialComments);
+
     const [showAlert, setShowAlert] = useState(false);
     const [showSuccess, setShowSuccess] = useState(false);
+    const [comments, setComments] = useState(initialComments);
 
     const movieID = props.movieID;
-
-    const { comments } = props;
 
     const backgroundImageURL = process.env.NEXT_PUBLIC_BG_IMAGE_URL;
     const posterURL = process.env.NEXT_PUBLIC_POSTER_URL;
@@ -85,7 +88,7 @@ const MovieDetailPage = (props: any) => {
                     </Divider>
                     <Grid className="flex flex-col gap-3 justify-between max-h-[40vh] overflow-y-auto">
                         {comments.map((v: any) => {
-                            return <Comment key={v.id} id={v.id} rateValue={v.rateValue} comment={v.comment} />
+                            return <Comment key={v._id} id={v.username} rateValue={v.rateValue} comment={v.comment} />
                         })}
                     </Grid>
                     <Grid className="flex items-stretch gap-6 justify-between flex-wrap lg:flex-nowrap ">
@@ -139,16 +142,17 @@ export async function getStaticProps(context: any) {
 
     if (!movieID) return { notFound: true }
 
-    const filePath = buildFeedbackPath();
-    const data = extractFeedback(filePath);
+
+    const { comments } = await getComments(movieID);
+
 
     return {
         props: {
             dehydratedState: dehydrate(queryClient),
             movieID,
-            comments: data
+            initialComments: comments ? comments : []
         },
-        revalidate: 60
+        revalidate: 10
     }
 
 }

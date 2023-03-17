@@ -18,6 +18,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     try {
         client = await connectDatabase();
     } catch (error) {
+        console.log(error);
         res.status(500).json({ message: "Connecting to the database failed!" });
         return;
     }
@@ -50,6 +51,18 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
         } catch (error) {
             res.status(500).json({ message: "Inserting comment failed!" });
         }
+    }
+
+    if (req.method === "GET") {
+        const db = client.db();
+
+        const documents = await db
+            .collection("comments")
+            .find({ movieID: movieID })
+            .sort({ _id: -1 }) //DESC
+            .toArray();
+
+        res.status(200).json({ comments: documents });
     }
 
     client.close();

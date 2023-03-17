@@ -1,5 +1,6 @@
-import { Card, Grid, styled, Typography, Rating, Divider } from '@mui/material';
+import { Card, Grid, Typography, Rating, Divider } from '@mui/material';
 import React from 'react'
+import { styled } from '@mui/material';
 
 const Comment = (props: any) => {
     const WhiteRatingIcon = styled(Rating)({

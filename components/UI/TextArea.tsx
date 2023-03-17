@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import InputUnstyled, { InputUnstyledProps } from '@mui/base/InputUnstyled';
-import { styled } from '@mui/system';
+import { styled } from '@mui/material';
 
 const blue = {
   100: '#DAECFF',
@@ -92,7 +92,6 @@ const CustomInput = React.forwardRef(function CustomInput(
 ) {
   return (
     <InputUnstyled
-
       slots={{ input: StyledInputElement, textarea: StyledTextareaElement }}
       {...props}
       ref={ref}
@@ -103,6 +102,6 @@ const CustomInput = React.forwardRef(function CustomInput(
 export default function UnstyledInputBasic(props: any) {
 
   return (
-    <CustomInput onChange={props.onChange} value={props.value} aria-label="Demo input" className={props.className} minRows={8} multiline={props.multiline} placeholder={props.placeholder} />
+    <CustomInput disabled={props.disabled} onChange={props.onChange} value={props.value} aria-label="Demo input" className={props.className} minRows={8} multiline={props.multiline} placeholder={props.placeholder} />
   );
 }
