@@ -9,6 +9,7 @@ import { useState } from "react";
 import Head from "next/head";
 import { ThemeOptions } from "@mui/material";
 import { NotificationContextProvider } from "../store/notification-context";
+import React from 'react'
 
 export default function App({ Component, pageProps }: AppProps) {
   const theme: ThemeOptions = createTheme({
@@ -51,7 +52,7 @@ export default function App({ Component, pageProps }: AppProps) {
                   <link rel="icon" type="image/png" href="/images/popcorn.png" />
                 </Head>
                 <Component {...pageProps} />
-                <Footer />
+                {/* <Footer /> */}
               </Layout>
             </ThemeProvider>
           </Hydrate>

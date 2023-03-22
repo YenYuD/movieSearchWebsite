@@ -5,7 +5,7 @@ import Hamburger from "./Hamburger";
 const NavBar = () => {
     return (
         <>
-            <nav>
+            <nav >
                 <Hamburger />
                 <div className="hidden my-6 fixed w-full px-16 z-20 justify-between md:flex ">
                     <div className="h-14 ">
