@@ -1,5 +1,10 @@
 const { withPlaiceholder } = require("@plaiceholder/next");
 /** @type {import('next').NextConfig} */
+
+const withBundleAnalyzer = require("@next/bundle-analyzer")({
+    enabled: process.env.ANALYZE === "true",
+});
+
 const nextConfig = {
     reactStrictMode: true,
     swcMinify: true,
@@ -15,4 +20,4 @@ const nextConfig = {
     },
 };
 
-module.exports = withPlaiceholder(nextConfig);
+module.exports = withBundleAnalyzer(withPlaiceholder(nextConfig));

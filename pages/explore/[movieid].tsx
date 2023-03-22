@@ -14,6 +14,10 @@ const MovieDetailPage = (props: any) => {
 
     const { initialComments } = props;
 
+    const { dehydratedState: { queries: queryData } } = props;
+
+    const movieDetailData = queryData[0].state.data;
+
     const [showAlert, setShowAlert] = useState(false);
     const [showSuccess, setShowSuccess] = useState(false);
     const [comments, setComments] = useState(initialComments);
@@ -21,27 +25,21 @@ const MovieDetailPage = (props: any) => {
     const movieID = props.movieID;
 
     const updateComment = async () => {
-        await axios.get('/api/comments/' + movieID).then((res) => {
-            if (res.status === 200) {
-                setComments(res.data.comments);
-            }
-        })
+        const res = await axios.get('/api/comments/' + movieID);
+        return res.data.comments;
     }
 
-    useQuery(movieID, updateComment, { enabled: !!movieID })
+    const { data: newComments } = useQuery(['movieID', movieID], updateComment, { enabled: !!movieID });
+
+    useEffect(() => {
+        if (newComments) {
+            setComments(newComments);
+        }
+    }, [newComments])
 
 
     const backgroundImageURL = process.env.NEXT_PUBLIC_BG_IMAGE_URL;
     const posterURL = process.env.NEXT_PUBLIC_POSTER_URL;
-
-    const qkMovieData = [MovieSearchService.GetMovieDataByID.fnName, movieID];
-
-    const getMovieDataFn = async () => {
-        const data = await MovieSearchService.GetMovieDataByID(movieID!);
-        return data;
-    }
-
-    const { data: movieDetailData } = useQuery(qkMovieData, getMovieDataFn, { enabled: !!movieID });
 
     if (!movieDetailData || !movieID) return <div>movie not Found!</div>
 
@@ -66,11 +64,11 @@ const MovieDetailPage = (props: any) => {
         </Head>
         <Grid>
             <Grid className="relative pt-32 h-auto pb-40">
-                <Image className="object-cover -z-10 brightness-50" src={`${backgroundImageURL}${movieDetailData.poster_path}`} alt="poster" fill />
+                <Image className="object-cover -z-10 brightness-50" src={`${backgroundImageURL}${movieDetailData.poster_path}`} alt="poster" fill priority={true} />
                 <Grid className="backdrop z-10 w-3/4 m-auto bg-black/50 rounded-3xl flex flex-col  gap-16 p-9">
                     <Grid className="flex">
                         <Grid className="basis-1/3 shrink-0">
-                            <Image className="m-auto" src={`${posterURL}${movieDetailData.poster_path}`} alt="poster" width={300} height={500} />
+                            <Image className="m-auto" src={`${posterURL}${movieDetailData.poster_path}`} alt="poster" width={300} height={500} priority={true} style={{ width: 'auto' }} />
                         </Grid>
                         <Grid className="grow-0">
                             <Grid className="py-8">

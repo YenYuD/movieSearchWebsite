@@ -1,9 +1,15 @@
-import { createContext, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 
 interface NotificationDataType {
     title: string;
     message: string;
-    status: number;
+    status: string;
+}
+
+export const NotificationStatusType = {
+    error: 'error',
+    pending: 'pending',
+    success: 'success'
 }
 
 const NotificationContext = createContext<{
@@ -17,6 +23,8 @@ const NotificationContext = createContext<{
 });
 
 export function NotificationContextProvider(props: any) {
+
+
     const [activeNotification, setActiveNotification] =
         useState<NotificationDataType | null>(null);
 
@@ -27,6 +35,14 @@ export function NotificationContextProvider(props: any) {
     function hideNotificationHandler() {
         setActiveNotification(null);
     }
+
+
+    useEffect(() => {
+        if (activeNotification && activeNotification.status === NotificationStatusType.error || activeNotification?.status === NotificationStatusType.success) {
+            const timer = setTimeout(() => { setActiveNotification(null); }, 3000)
+            return (() => { clearTimeout(timer) })
+        }
+    }, [activeNotification])
 
     const context = {
         notification: activeNotification,

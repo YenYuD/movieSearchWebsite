@@ -1,15 +1,20 @@
 import { Alert, Box, Button, Card, Grid, Rating, styled, Typography } from '@mui/material'
 import axios from 'axios'
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 import { useForm } from 'react-hook-form'
+import NotificationContext from '../../store/notification-context'
 import FormInput from './FormInput'
 import UnstyledInputBasic from './TextArea'
+import { NotificationStatusType } from '../../store/notification-context'
 
 interface RateMovieProps {
     movieID: string
 }
 
 const RateMovies = (props: RateMovieProps) => {
+
+    const notificationCtx = useContext(NotificationContext);
+
 
     const { handleSubmit, control, reset } = useForm({
         defaultValues: {
@@ -27,63 +32,86 @@ const RateMovies = (props: RateMovieProps) => {
 
     const [rateValue, setRateValue] = useState<number | null>(null);
     const [comment, setComment] = useState<string>('');
-    const [showSuccess, setShowSuccess] = useState(false);
-    const [showError, setShowError] = useState(false);
-    const [errorMessage, setErrorMessage] = useState('');
-    const [isLoading, setIsLoading] = useState(false);
+    const [isLoading, setIsLoading] = useState<boolean>(false)
 
-    useEffect(() => {
-
-        if (showSuccess) {
-            setTimeout(() => { setShowSuccess(false) }, 1500)
-        }
-
-        if (showError) {
-            setTimeout(() => { setShowError(false) }, 1500)
-        }
-
-    }, [showSuccess, showError])
 
     const onSubmit = async (data: any) => {
 
+        setIsLoading(true);
+
         const username = data.username;
 
+        notificationCtx.showNotification({
+            title: 'sending...',
+            message: 'please wait...',
+            status: NotificationStatusType.pending
+        })
+
         if (!rateValue && !username) {
-            setShowError(true);
-            setErrorMessage('you forgot to write your name and rate this movie !')
+            notificationCtx.showNotification({
+                title: 'You missed something!',
+                message: "please check if you fill everything yet.",
+                status: NotificationStatusType.error
+            })
+            setIsLoading(false);
             return;
         }
 
         if (!rateValue) {
-            setShowError(true);
-            setErrorMessage('you forgot to rate this movie !')
+            notificationCtx.showNotification({
+                title: 'You missed something!',
+                message: "please check if you fill everything yet.",
+                status: NotificationStatusType.error
+            })
+            setIsLoading(false);
             return;
         }
 
         if (!username) {
-            setShowError(true);
-            setErrorMessage('you forgot to write your name !')
+            notificationCtx.showNotification({
+                title: 'You missed something!',
+                message: "please check if you fill everything yet.",
+                status: NotificationStatusType.error
+            })
+            setIsLoading(false);
             return;
         }
-
-        setIsLoading(true);
 
         const rateInfo = { comment, rateValue, username, movieID }
 
         const URL = '/api/comments/' + movieID;
 
-        const result = await axios.post(URL, rateInfo).then((res) => { const { status, data } = res; return { status, data } })
+        const result = await axios.post(URL, rateInfo).then((res) => { const { status, data } = res; return { status, data } }).catch((err) => {
+
+            notificationCtx.showNotification({
+                title: 'Oops!',
+                message: err || 'something went wrong.',
+                status: NotificationStatusType.error
+            })
+
+            throw new Error(err);
+        })
 
         if (result.status === 201) {
-            setShowSuccess(true);
 
             setRateValue(null);
             setComment('')
             reset();
+
+            notificationCtx.showNotification({
+                title: 'success!',
+                message: 'comment sent successfully.',
+                status: NotificationStatusType.success
+            })
+
         } else {
-            setShowError(true);
-            setErrorMessage(result.data);
+            notificationCtx.showNotification({
+                title: 'Oops!',
+                message: 'something went wrong.',
+                status: NotificationStatusType.error
+            })
         }
+
         setIsLoading(false);
 
     }
@@ -106,7 +134,6 @@ const RateMovies = (props: RateMovieProps) => {
                     />
                 </Grid>
                 <FormInput
-                    onFocus={() => { setShowError(false) }}
                     className="my-3 w-2/3"
                     name='username'
                     control={control}
@@ -117,12 +144,6 @@ const RateMovies = (props: RateMovieProps) => {
                     fullWidth
                 />
                 <UnstyledInputBasic disabled={isLoading} onChange={(event: React.ChangeEvent<HTMLInputElement>) => setComment(event.target.value)} className="w-2/3 [&>textarea]:min-h-[117px] [&>textarea]:min-w-full " value={comment} aria-label="leave some comment about the movie!" multiline placeholder="Type something…" />
-                <Alert className={` ${isLoading || showSuccess ? '' : 'hidden'} absolute bottom-1/3 w-1/2`} severity='success'>
-                    {showSuccess ? 'done' : 'sending...'}
-                </Alert>
-                <Alert className={` ${!showError ? 'hidden' : ''} absolute bottom-1/3 w-1/2`} severity='error'>
-                    {errorMessage}
-                </Alert>
                 <Button disabled={isLoading} onClick={handleSubmit(onSubmit)} type="submit" variant="outlined" color="primary" className="my-10 tracking-widest" sx={{
                     "&.Mui-disabled": {
                         borderColor: "#ffffff",

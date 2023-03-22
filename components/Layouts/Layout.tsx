@@ -9,8 +9,6 @@ const Layout = (props: any) => {
 
     const { title, message, status } = notificationCtx.notification ?? {}
 
-
-
     return (
         <>
             <NavBar />

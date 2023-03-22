@@ -1,8 +1,7 @@
-import { styled } from '@mui/material/styles';
 import { Box, Button, Card, Grid, Typography } from '@mui/material'
-import React, { useRef } from 'react'
+import React from 'react'
 import FormInput from '../../components/UI/FormInput'
-import { useForm, Controller } from "react-hook-form";
+import { useForm, } from "react-hook-form";
 import axios from 'axios';
 
 const LoginPage = () => {

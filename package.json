@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "export": "next export"
   },
   "dependencies": {
     "@emotion/react": "^11.10.5",
@@ -42,8 +43,10 @@
     "url-join": "^5.0.0"
   },
   "devDependencies": {
+    "@next/bundle-analyzer": "^13.2.4",
     "@types/node": "^18.15.0",
     "autoprefixer": "^10.4.13",
+    "cross-env": "^7.0.3",
     "eslint": "^8.32.0",
     "eslint-plugin-react": "^7.32.1",
     "tailwindcss": "^3.2.4"

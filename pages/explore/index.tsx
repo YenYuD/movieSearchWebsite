@@ -136,7 +136,6 @@ const Explore = (props: any) => {
                     InputProps={{
                         endAdornment: (
                             <IconButton
-                                // sx={{ visibility: value ? "visible" : "hidden" }}
                                 onClick={() => { form.reset() }}
                             >
                                 <HighlightOffOutlinedIcon color="primary" />
@@ -167,8 +166,11 @@ const Explore = (props: any) => {
                                         alt="poster"
                                         placeholder={item.hasOwnProperty('placeholder') && 'blur'}
                                         src={`${imageURL}${item.poster_path}`}
-                                        layout="fill"
+                                        fill
                                         className="object-cover"
+                                        sizes="(max-width: 768px) 100vw,
+                                        (max-width: 1200px) 50vw,
+                                        33vw"
                                     />
 
                                     <div className="absolute text-center w-full -bottom-36">
@@ -201,6 +203,9 @@ const Explore = (props: any) => {
                                 placeholder={item.hasOwnProperty('placeholder') && 'blur'}
                                 src={item.poster_path ? `${imageURL}${item.poster_path}` : fallbackSrc}
                                 fill
+                                sizes="(max-width: 768px) 100vw,
+                                        (max-width: 1200px) 50vw,
+                                        33vw"
                                 className={`object-cover ${item.poster_path ? '' : "grayscale brightness-[0.4] object-right-top"} `}
                             />
 

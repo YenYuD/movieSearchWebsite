@@ -27,6 +27,7 @@ class MyDocument extends Document {
                     <div id="overlay"></div>
                     <Main />
                     <NextScript />
+                    <div id="notification" className="flex justify-center"></div>
                 </body>
             </Html>
         );
