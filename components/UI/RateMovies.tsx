@@ -50,7 +50,7 @@ const RateMovies = (props: RateMovieProps) => {
         if (!rateValue && !username) {
             notificationCtx.showNotification({
                 title: 'You missed something!',
-                message: "please check if you fill everything yet.",
+                message: "please check agin.",
                 status: NotificationStatusType.error
             })
             setIsLoading(false);
@@ -60,7 +60,7 @@ const RateMovies = (props: RateMovieProps) => {
         if (!rateValue) {
             notificationCtx.showNotification({
                 title: 'You missed something!',
-                message: "please check if you fill everything yet.",
+                message: "please check again.",
                 status: NotificationStatusType.error
             })
             setIsLoading(false);
@@ -70,7 +70,7 @@ const RateMovies = (props: RateMovieProps) => {
         if (!username) {
             notificationCtx.showNotification({
                 title: 'You missed something!',
-                message: "please check if you fill everything yet.",
+                message: "please check again.",
                 status: NotificationStatusType.error
             })
             setIsLoading(false);
