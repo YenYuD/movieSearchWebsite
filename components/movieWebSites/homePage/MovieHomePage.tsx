@@ -8,7 +8,7 @@ import FourthBlock from "./FourthBlock";
 const MovieHomePage = () => {
     return (
         <>
-            <Grid>
+            <Grid className="pb-40">
                 <FirstBlock />
                 {/* <div className="divider my-20 h-0.5"></div>
                 <SecondBlock />

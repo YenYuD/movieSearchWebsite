@@ -27,9 +27,9 @@ const Hamburger = () => {
                         <li>
                             <Link href="/mywatchList">WATCHLIST</Link>
                         </li>
-                        <li>
+                        {/* <li>
                             <Link href="/about">ABOUT</Link>
-                        </li>
+                        </li> */}
                         <li>
                             <Link href="/login">LOGIN</Link>
                         </li>

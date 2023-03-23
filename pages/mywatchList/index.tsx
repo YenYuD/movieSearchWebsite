@@ -1,3 +1,4 @@
+import { Typography } from '@mui/material';
 import axios from 'axios';
 import Head from 'next/head';
 import React, { useEffect, useState } from 'react'
@@ -62,9 +63,12 @@ const WatchList = (props: PropsType) => {
                 <meta charSet="UTF-8" />
                 <link rel="icon" type="image/png" href="/images/popcorn.png" />
             </Head>
-            <div>{user.map((v: any) => {
-                return <li key={v.userID}>{v.username}</li>
-            })}</div>
+            <div className="h-screen flex justify-center items-center">
+                <Typography >
+                    頁面開發中。敬請期待。
+                </Typography>
+            </div>
+
         </>
     )
 }

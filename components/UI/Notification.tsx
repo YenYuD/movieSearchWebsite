@@ -26,7 +26,7 @@ const Notification = (props: any) => {
     }
 
 
-    return mounted ? createPortal((<Grid className={` py-6 z-10 text-black absolute bottom-8 text-center ${bgColor} w-1/2 rounded-xl ${title ? 'animate-snackbar ' : ''}`}>
+    return mounted ? createPortal((<Grid className={` py-6 px-6 z-10 text-black absolute bottom-8 text-center ${bgColor} w-1/2 rounded-xl ${title ? 'animate-snackbar ' : ''}`}>
         <Typography py={1}>{title}</Typography>
         <Typography py={1}>{message}</Typography>
     </Grid>

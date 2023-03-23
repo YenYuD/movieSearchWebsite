@@ -1,14 +1,26 @@
 import { Box, Button, Card, Grid, Typography } from '@mui/material'
-import React from 'react'
+import React, { useContext } from 'react'
 import FormInput from '../../components/UI/FormInput'
 import { useForm, } from "react-hook-form";
 import axios from 'axios';
+import NotificationContext, { NotificationStatusType } from '../../store/notification-context';
 
 const LoginPage = () => {
 
     const { handleSubmit, reset, control } = useForm();
 
+    const notificationCtx = useContext(NotificationContext);
+
     const onSubmit = async (data: any) => {
+
+        notificationCtx.showNotification({
+            title: 'sorry!',
+            message: 'function still developing, soon will be done!',
+            status: NotificationStatusType.error
+        })
+
+        return;
+
         const result = await axios.post('/api/feedback', JSON.stringify(data), { headers: { 'Content-Type': 'application/json' } }).then((res) => {
             return res.data;
         });
@@ -18,9 +30,9 @@ const LoginPage = () => {
 
     return (
         <>
-            <Grid className="flex justify-center pt-40">
-                <Card className="bg-transparent border-white p-24 pt-0 overflow-visible" variant="outlined">
-                    <Typography component="h6" color="primary" className="sm:text-3xl py-7 text-center -translate-y-11 bg-black " >LOGIN</Typography>
+            <Grid className="flex justify-center pt-28 md:pt-40">
+                <Card className="bg-transparent border-white p-8  md:p-24 md:pt-0 overflow-visible" variant="outlined">
+                    <Typography component="h6" color="primary" className="sm:text-3xl py-7 text-center md:-translate-y-11 -translate-y-18 bg-black " >LOGIN</Typography>
                     <Box
                         component="form"
                         sx={{

@@ -117,10 +117,10 @@ const RateMovies = (props: RateMovieProps) => {
     }
 
     return (
-        <Grid className=" flex-1 basis-1/2">
-            <Card className="relative bg-transparent h-full border-white px-24 flex flex-col items-center" variant="outlined">
+        <Grid className=" flex-1 basis-1/2 ">
+            <Card className="relative px-6 bg-transparent h-full border-white lg:px-24 flex flex-col items-center" variant="outlined">
                 <Typography component={'h6'} color="primary" className="py-7 sm:text-3xl whitespace-nowrap"> Leave some comments?</Typography>
-                <Grid className="flex my-4">
+                <Grid className="flex my-4 gap-2 flex-wrap justify-center md:flex-nowrap">
                     <Typography className="pr-2" component={'legend'} color="primary" >Rate the movie:</Typography>
                     <WhiteRatingIcon
                         className="-translate-y-1"
@@ -134,7 +134,7 @@ const RateMovies = (props: RateMovieProps) => {
                     />
                 </Grid>
                 <FormInput
-                    className="my-3 w-2/3"
+                    className="my-3 w-full lg:w-2/3"
                     name='username'
                     control={control}
                     required={true}
@@ -143,7 +143,7 @@ const RateMovies = (props: RateMovieProps) => {
                     disabled={isLoading}
                     fullWidth
                 />
-                <UnstyledInputBasic disabled={isLoading} onChange={(event: React.ChangeEvent<HTMLInputElement>) => setComment(event.target.value)} className="w-2/3 [&>textarea]:min-h-[117px] [&>textarea]:min-w-full " value={comment} aria-label="leave some comment about the movie!" multiline placeholder="Type something…" />
+                <UnstyledInputBasic disabled={isLoading} onChange={(event: React.ChangeEvent<HTMLInputElement>) => setComment(event.target.value)} className="w-full lg:w-2/3 [&>textarea]:min-h-[117px] [&>textarea]:min-w-full " value={comment} aria-label="leave some comment about the movie!" multiline placeholder="Type something…" />
                 <Button disabled={isLoading} onClick={handleSubmit(onSubmit)} type="submit" variant="outlined" color="primary" className="my-10 tracking-widest" sx={{
                     "&.Mui-disabled": {
                         borderColor: "#ffffff",

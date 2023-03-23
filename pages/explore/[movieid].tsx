@@ -63,20 +63,18 @@ const MovieDetailPage = (props: any) => {
             <link rel="icon" type="image/png" href="/images/popcorn.png" />
         </Head>
         <Grid>
-            <Grid className="relative pt-32 h-auto pb-40">
+            <Grid className="relative pt-16 md:pt-32 h-auto  pb-24 sm:pb-40">
                 <Image className="object-cover -z-10 brightness-50" src={`${backgroundImageURL}${movieDetailData.poster_path}`} alt="poster" fill priority={true} />
-                <Grid className="backdrop z-10 w-3/4 m-auto bg-black/50 rounded-3xl flex flex-col  gap-16 p-9">
-                    <Grid className="flex">
-                        <Grid className="basis-1/3 shrink-0">
-                            <Image className="m-auto" src={`${posterURL}${movieDetailData.poster_path}`} alt="poster" width={300} height={500} priority={true} style={{ width: 'auto' }} />
-                        </Grid>
-                        <Grid className="grow-0">
-                            <Grid className="py-8">
+                <Grid className="backdrop z-10 w-[90%] sm:w-3/4 m-auto bg-black/50 rounded-3xl flex flex-col  gap-16 p-9">
+                    <Grid className="flex flex-col gap-4">
+                        <Grid className="py-8 flex flex-wrap lg:flex-nowrap">
+                            <Grid className="flex w-full justify-center"> <Image className="m-auto" src={`${posterURL}${movieDetailData.poster_path}`} alt="poster" width={300} height={500} priority={true} style={{ width: 'auto' }} /></Grid>
+                            <Grid className="flex flex-col 2xl:shrink-0">
                                 <Typography variant="h4" align="center" className="pt-8 pb-4" >{movieDetailData.original_title}({movieDetailData.release_date.split('-')[0]})</Typography>
                                 <div className="flex flex-col items-center">
-                                    <Grid>
+                                    <Grid className="flex gap-2 flex-wrap">
                                         {movieDetailData.genres.map((v: any) => {
-                                            return <Chip className="mx-2" color="primary" variant="outlined" size="small" key={v.id} label={v.name} />
+                                            return <Chip color="primary" variant="outlined" size="small" key={v.id} label={v.name} />
                                         })}
                                     </Grid>
                                     <Grid>
@@ -84,26 +82,25 @@ const MovieDetailPage = (props: any) => {
                                     </Grid>
                                 </div>
                             </Grid>
-                            <Grid>
-                                <Typography className="opacity-60 pb-6">{movieDetailData.tagline}</Typography>
-                                <Typography variant="h6">Overview</Typography>
-                                <Typography className="py-2" >{movieDetailData.overview}</Typography>
-                            </Grid>
+                        </Grid>
+                        <Grid>
+                            <Typography className="opacity-60 pb-6">{movieDetailData.tagline}</Typography>
+                            <Typography variant="h6">Overview</Typography>
+                            <Typography className="py-2" >{movieDetailData.overview}</Typography>
                         </Grid>
                     </Grid>
-                    <Divider className="w-full before:border-t-stone-50 after:border-t-stone-50">
+                    <Divider className="w-full [&>span]:whitespace-normal before:border-t-stone-50 after:border-t-stone-50">
                         COMMENTS ABOUT THE MOVIE
                     </Divider>
                     <Grid className="flex flex-col gap-3 justify-between max-h-[40vh] overflow-y-auto">
-                        {comments.map((v: any) => {
+                        {comments.length ? comments.map((v: any) => {
                             return <Comment key={v._id} id={v.username} rateValue={v.rateValue} comment={v.comment} />
-                        })}
+                        }) : <Typography component='p' className="text-center">Leave the first comment!</Typography>}
                     </Grid>
-                    <Grid className="flex items-stretch gap-6 justify-between flex-wrap lg:flex-nowrap ">
+                    <Grid className="flex items-stretch gap-6 justify-center md:justify-between flex-wrap 2xl:flex-nowrap ">
                         <RateMovies movieID={movieID} />
-                        <SuscribeInput showAlert={showAlert} setShowAlert={setShowAlert} showSuccess={showSuccess} setShowSuccess={setShowSuccess} />
+                        {/* <SuscribeInput showAlert={showAlert} setShowAlert={setShowAlert} showSuccess={showSuccess} setShowSuccess={setShowSuccess} /> */}
                     </Grid>
-
                 </Grid>
 
             </Grid>
