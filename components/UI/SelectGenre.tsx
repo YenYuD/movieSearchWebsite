@@ -1,10 +1,7 @@
 import React from 'react';
-import {
-    Box, FormControl, InputLabel, MenuItem, Select,
-} from "@mui/material";
 import SelectUnstyled, {
-    SelectUnstyledProps,
-    selectUnstyledClasses,
+  SelectUnstyledProps,
+  selectUnstyledClasses,
 } from '@mui/base/SelectUnstyled';
 import OptionUnstyled, { optionUnstyledClasses } from '@mui/base/OptionUnstyled';
 import PopperUnstyled from '@mui/base/PopperUnstyled';
@@ -12,7 +9,7 @@ import { styled } from '@mui/system';
 
 
 const StyledButton = styled('button')(
-    ({ theme }) => `
+  ({ theme }) => `
     font-size: 1rem;
     box-sizing: border-box;
     min-height: calc(1.5em + 22px);
@@ -69,7 +66,7 @@ const StyledButton = styled('button')(
 );
 
 const StyledListbox = styled('ul')(
-    ({ theme }) => `
+  ({ theme }) => `
     font-size: 0.875rem;
     box-sizing: border-box;
     padding: 6px;
@@ -93,7 +90,7 @@ const StyledListbox = styled('ul')(
 );
 
 const StyledOption = styled(OptionUnstyled)(
-    ({ theme }) => `
+  ({ theme }) => `
     list-style: none;
     padding: 8px;
     border-radius: 8px;
@@ -132,23 +129,23 @@ const StyledPopper = styled(PopperUnstyled)`
   `;
 
 const CustomSelect = React.forwardRef(function CustomSelect<
-    TValue extends {},
-    Multiple extends boolean,
+  TValue extends {},
+  Multiple extends boolean,
 >(
-    props: SelectUnstyledProps<TValue, Multiple>,
-    ref: React.ForwardedRef<HTMLButtonElement>,
+  props: SelectUnstyledProps<TValue, Multiple>,
+  ref: React.ForwardedRef<HTMLButtonElement>,
 ) {
-    const slots: SelectUnstyledProps<TValue, Multiple>['slots'] = {
-        root: StyledButton,
-        listbox: StyledListbox,
-        popper: StyledPopper,
-        ...props.slots,
-    };
+  const slots: SelectUnstyledProps<TValue, Multiple>['slots'] = {
+    root: StyledButton,
+    listbox: StyledListbox,
+    popper: StyledPopper,
+    ...props.slots,
+  };
 
-    return <SelectUnstyled {...props} ref={ref} slots={slots} />;
+  return <SelectUnstyled {...props} ref={ref} slots={slots} />;
 }) as <TValue extends {}, Multiple extends boolean>(
-    props: SelectUnstyledProps<TValue, Multiple> &
-        React.RefAttributes<HTMLButtonElement>,
+  props: SelectUnstyledProps<TValue, Multiple> &
+    React.RefAttributes<HTMLButtonElement>,
 ) => JSX.Element;
 
 
@@ -156,17 +153,17 @@ const CustomSelect = React.forwardRef(function CustomSelect<
 const SelectGenre = (props: any) => {
 
 
-    return (
-        <>
-            <CustomSelect defaultValue={0} onChange={props.onChange} className={props.clasName}>
-                <StyledOption value={0} disabled label='genre' ></StyledOption>
-                {props.options.map((v) =>
-                    <StyledOption key={v.id} value={v.id}>{v.name}</StyledOption>
-                )}
-            </CustomSelect>
+  return (
+    <>
+      <CustomSelect defaultValue={0} onChange={props.onChange} className={props.clasName}>
+        <StyledOption value={0} disabled label='genre' ></StyledOption>
+        {props.options.map((v: any) =>
+          <StyledOption key={v.id} value={v.id}>{v.name}</StyledOption>
+        )}
+      </CustomSelect>
 
-        </>
-    )
+    </>
+  )
 }
 
 export default SelectGenre
