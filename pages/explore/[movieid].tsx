@@ -149,9 +149,8 @@ export async function getStaticProps(context: any) {
 
     if (!movieID) return { notFound: true }
 
-    const res = await fetch('/api/comments' + movieID);
+    const res = await fetch(process.env.BASE_URL + '/api/comments/' + movieID);
     const comments = await res.json();
-
 
     return {
         props: {
