@@ -140,10 +140,14 @@ export async function getStaticProps(context: any) {
 
     const qkMovieData = [MovieSearchService.GetMovieDataByID.fnName, movieID];
 
-    await queryClient.prefetchQuery(qkMovieData, async () => {
-        const data = await MovieSearchService.GetMovieDataByID(movieID!);
-        return data;
-    });
+    try {
+        await queryClient.prefetchQuery(qkMovieData, async () => {
+            const data = await MovieSearchService.GetMovieDataByID(movieID!);
+            return data;
+        });
+    } catch {
+
+    }
 
     if (!movieID) return { notFound: true }
 
