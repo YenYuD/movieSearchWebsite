@@ -7,7 +7,7 @@ import Image from "next/image";
 const FirstBlock = () => {
     return (
         <>
-            <div>
+            <div className="relative">
                 <Image src='/images/thomas-william-4qGbMEZb56c-unsplash.jpg' alt="bg-image" fill style={{ objectPosition: '62% 0%' }} className="-z-10 pointer-events-none object-cover fixed"
                     sizes="(max-width: 768px) 300vw,
                         (max-width: 1200px) 100vw,
