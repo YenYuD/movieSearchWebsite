@@ -151,9 +151,8 @@ export async function getStaticProps(context: any) {
     if (!movieID) return { notFound: true }
 
 
-    const { comments } = await getComments(movieID);
+    // const { comments } = await getComments(movieID);
 
-    console.log(comments);
 
 
     return {
