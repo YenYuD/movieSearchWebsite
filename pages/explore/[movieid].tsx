@@ -6,7 +6,6 @@ import Image from "next/image";
 import Head from "next/head";
 import RateMovies from "../../components/UI/RateMovies";
 import Comment from "../../components/UI/Comments";
-import { getComments } from "../../libs/loadComments";
 import axios from "axios";
 
 const MovieDetailPage = (props: any) => {
@@ -150,18 +149,15 @@ export async function getStaticProps(context: any) {
 
     if (!movieID) return { notFound: true }
 
-
-    // const { comments } = await getComments(movieID);
-
+    const res = await fetch('/api/comments' + movieID);
+    const comments = await res.json();
 
 
     return {
         props: {
             dehydratedState: dehydrate(queryClient),
             movieID,
-            initialComments: []
-            // initialComments: comments ? comments : []
-
+            initialComments: comments ? comments : []
         },
         revalidate: 10
     }
