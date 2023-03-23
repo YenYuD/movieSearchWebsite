@@ -153,12 +153,15 @@ export async function getStaticProps(context: any) {
 
     const { comments } = await getComments(movieID);
 
+    console.log(comments);
+
 
     return {
         props: {
             dehydratedState: dehydrate(queryClient),
             movieID,
-            initialComments: comments ? comments : []
+            initialComments: []
+            // initialComments: comments ? comments : []
 
         },
         revalidate: 10
