@@ -12,6 +12,8 @@ const MovieDetailPage = (props: any) => {
 
     const { initialComments } = props;
 
+
+
     const { dehydratedState: { queries: queryData } } = props;
 
     const movieDetailData = queryData[0].state.data;
@@ -150,7 +152,9 @@ export async function getStaticProps(context: any) {
     if (!movieID) return { notFound: true }
 
     const res = await fetch(process.env.BASE_URL + '/api/comments/' + movieID);
-    const comments = await res.json();
+    const { comments } = await res.json();
+
+
 
     return {
         props: {
