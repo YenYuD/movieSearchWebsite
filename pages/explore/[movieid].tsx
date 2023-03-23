@@ -125,7 +125,7 @@ export async function getStaticPaths() {
     }));
 
     return {
-        paths: paths,
+        paths: [],
         fallback: 'blocking'
     }
 
@@ -157,7 +157,7 @@ export async function getStaticProps(context: any) {
             movieID,
             initialComments: comments ? comments : []
         },
-        revalidate: 10
+        // revalidate: 10
     }
 
 }
