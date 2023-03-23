@@ -10,8 +10,8 @@ width: 100%;
 font-size: 1rem;
 font-weight: 400;
 line-height: 1.5;
-padding: 1rem;
 border-radius: 5px;
+padding:1rem;
 color:'#ffffff';
 background: transparent;
 border: 1px solid #ffffff;
@@ -22,7 +22,11 @@ letter-spacing:3px;
 }
 
 &:focus{
-    box-shadow: 0 0 0 1.5px white
+    box-shadow: 0 0 0 0.5px white
+}
+
+@media screen and (max-width:640px){
+    padding:0.5rem;
 }
 
 // firefox

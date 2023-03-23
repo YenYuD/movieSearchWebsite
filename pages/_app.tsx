@@ -52,7 +52,7 @@ export default function App({ Component, pageProps }: AppProps) {
                   <link rel="icon" type="image/png" href="/images/popcorn.png" />
                 </Head>
                 <Component {...pageProps} />
-                {/* <Footer /> */}
+                <Footer />
               </Layout>
             </ThemeProvider>
           </Hydrate>

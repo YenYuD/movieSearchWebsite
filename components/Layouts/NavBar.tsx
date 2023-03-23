@@ -7,9 +7,9 @@ const NavBar = () => {
         <>
             <nav >
                 <Hamburger />
-                <div className="hidden my-6 fixed w-full px-16 z-20 justify-between md:flex ">
-                    <div className="h-14 ">
-                        <ul className="flex text-transparent justify-evenly bg-gradient-to-r from-sky-100 to-sky-200 bg-clip-text lg:text-2xl gap-32">
+                <div className="hidden my-6 fixed w-full px-16 z-20 justify-between sm:flex ">
+                    <div className="h-14 w-full ">
+                        <ul className="flex text-transparent justify-between gap-6 md:gap-2 lg:justify-between bg-gradient-to-r from-sky-100 to-sky-200 bg-clip-text sm:text-sm lg:text-2xl lg:gap-16">
                             <li>
                                 <Link href="/">HOMEPAGE</Link>
                             </li>
@@ -17,15 +17,11 @@ const NavBar = () => {
                                 <Link href="/explore">EXPLORE</Link>
                             </li>
                             <li>
-                                <Link href="/mywatchList">MY WATCHLIST</Link>
+                                <Link href="/mywatchList">WATCHLIST</Link>
                             </li>
                             <li>
                                 <Link href="/about">ABOUT</Link>
                             </li>
-                        </ul>
-                    </div>
-                    <div>
-                        <ul className=" pt-[6px] text-transparent bg-gradient-to-r from-sky-100 to-sky-200 bg-clip-text lg: text-lg">
                             <li>
                                 <Link href="/login">LOGIN</Link>
                             </li>

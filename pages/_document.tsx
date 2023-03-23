@@ -21,9 +21,9 @@ class MyDocument extends Document {
 
     render() {
         return (
-            <Html>
+            <Html className="h-full">
                 <Head lang="en" />
-                <body className="relative">
+                <body className="relative min-h-screen">
                     <div id="overlay"></div>
                     <Main />
                     <NextScript />

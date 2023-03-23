@@ -2,11 +2,9 @@ import { dehydrate, QueryClient, useInfiniteQuery, useQuery } from "react-query"
 import { MovieSearchService } from "../../services/movieServices";
 import Image from "next/image";
 import {
-    Autocomplete,
     Button,
     Grid,
     IconButton,
-    TextField,
     Typography,
 } from "@mui/material";
 import Link from "next/link";
@@ -18,6 +16,7 @@ import CircularProgress from '@mui/material/CircularProgress';
 import FormInput from "../../components/UI/FormInput";
 import { useForm } from "react-hook-form";
 import HighlightOffOutlinedIcon from '@mui/icons-material/HighlightOffOutlined';
+import React from "react";
 
 
 
@@ -32,6 +31,7 @@ const Explore = (props: any) => {
     const { dehydratedState: { queries: queryData } } = props;
 
     const { state: { data: { genres: initalGenre } } } = queryData ? queryData[0] : [];
+
 
 
     const [genre, setGenre] = useState<number>(initalGenre && initalGenre[0].id);
@@ -112,7 +112,8 @@ const Explore = (props: any) => {
     const imageURL = process.env.NEXT_PUBLIC_IMAGE_URL;
 
     const handleGenreOnChange = (_: any, value: any) => {
-        setGenre(value.props.value);
+
+        setGenre(value);
     };
 
 
@@ -126,9 +127,10 @@ const Explore = (props: any) => {
                 <meta charSet="UTF-8" />
                 <link rel="icon" type="image/png" href="/images/popcorn.png" />
             </Head>
-            <Grid className="pt-40 flex px-16 items-center justify-center">
+            <Typography component={'p'} className="pt-16 text-center text-sky-200 md:hidden">EXPLORE</Typography>
+            <Grid className="lg:pt-40 pt-10 md:pt-24 flex flex-col sm:flex-row lg:px-16 px-8 items-center justify-start  sm:justify-center flex-wrap gap-3">
                 <FormInput
-                    className="m-3 w-1/2"
+                    className="flex w-full phone:w-[80%] md:w-1/2 sm:w-1/2 justify-center"
                     name="keyword"
                     control={form.control}
                     label="search movie"
@@ -145,21 +147,17 @@ const Explore = (props: any) => {
                 />
                 <Typography component={'p'} color="primary" className="text-center" >or</Typography>
                 <SelectGenre
-                    name='genre'
-                    label='select genre'
-                    fullWidth
+                    className="phone:w-[80%] md:w-1/2 sm:w-1/2"
                     options={initalGenre}
-                    getOptionLabel={(opt: any) => opt.name}
-                    sx={{ width: 300 }}
                     onChange={handleGenreOnChange}
                 />
             </Grid>
-            {!searchMode && <Grid className="pt-20 px-16  flex flex-wrap  justify-center gap-4">
+            {!searchMode && <Grid className="pt-20 md:px-16 px-4  flex flex-wrap  justify-center gap-4">
                 {data?.pages ? data.pages.map((group: any, i: number) => {
                     return (
                         <Fragment key={i}>
                             {group.results.map((item: any) => {
-                                return (<Grid key={item.id} className="relative w-[calc((100%_-_3rem)/4)] pt-[37.57%]  transition-all overflow-hidden [&>img]:hover:brightness-50 [&>div]:hover:top-1/2 ">
+                                return (<Grid key={item.id} className="relative lg:w-[calc((100%_-_3rem)/4)]  sm:w-[calc((100%_-_1rem)/2)] w-full pt-[131.57%] sm:pt-[68.57%] lg:pt-[37.57%]  transition-all overflow-hidden [&>img]:hover:brightness-50 [&>div]:hover:top-1/2 ">
                                     <Image
                                         {...item.placeholder
                                         }
@@ -173,7 +171,7 @@ const Explore = (props: any) => {
                                         33vw"
                                     />
 
-                                    <div className="absolute text-center w-full -bottom-36">
+                                    <div className="absolute text-center w-full lg:px-2 -bottom-36">
                                         <Typography>{item.title}</Typography>
                                         <Button
                                             className="mt-10 tracking-widest font-bold"
@@ -192,10 +190,10 @@ const Explore = (props: any) => {
                     );
                 }) : <div>Loading...</div>}
             </Grid>}
-            {searchMode && <Grid className="pt-20 px-16  flex flex-wrap  justify-center gap-4">
+            {searchMode && <Grid className="pt-20 md:px-16 px-4  flex flex-wrap  justify-center gap-4">
                 {!!movieSearchData && movieSearchData.results.map((item: any) => {
                     return (
-                        (<Grid key={item.id} className="relative w-[calc((100%_-_3rem)/4)] pt-[37.57%]  transition-all overflow-hidden [&>img]:hover:brightness-50 [&>div]:hover:top-1/2 ">
+                        (<Grid key={item.id} className="relative lg:w-[calc((100%_-_3rem)/4)]  sm:w-[calc((100%_-_1rem)/2)] w-full pt-[131.57%] sm:pt-[68.57%] lg:pt-[37.57%]  transition-all overflow-hidden [&>img]:hover:brightness-50 [&>div]:hover:top-1/2 ">
                             <Image
                                 {...item.placeholder
                                 }

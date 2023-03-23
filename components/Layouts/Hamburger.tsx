@@ -9,7 +9,7 @@ const Hamburger = () => {
 
     return (
         <>
-            <section className="md:hidden z-50 pointer-events-none flex flex-col gap-10 fixed h-full w-full right-0 p-8 overflow-hidden" >
+            <section className="sm:hidden z-50 pointer-events-none flex flex-col gap-10 fixed h-full w-full right-0 p-8 overflow-hidden" >
                 <div className={`relative pointer-events-auto flex justify-end z-50 transition-opacity ${navOpen ? 'opacity-0' : ''}`} onClick={() => setNavOpen((prev) => !prev)}>
                     <MenuIcon />
                 </div>
@@ -25,7 +25,7 @@ const Hamburger = () => {
                             <Link href="/explore">EXPLORE</Link>
                         </li>
                         <li>
-                            <Link href="/mywatchList">MY WATCHLIST</Link>
+                            <Link href="/mywatchList">WATCHLIST</Link>
                         </li>
                         <li>
                             <Link href="/about">ABOUT</Link>
