@@ -4,10 +4,9 @@ import { useQuery, dehydrate, QueryClient } from "react-query";
 import { Chip, Divider, Grid, Typography } from "@mui/material";
 import Image from "next/image";
 import Head from "next/head";
-import SuscribeInput from "../../components/UI/SuscribeInput";
 import RateMovies from "../../components/UI/RateMovies";
 import Comment from "../../components/UI/Comments";
-// import { getComments } from "../../libs/loadComments";
+import { getComments } from "../../libs/loadComments";
 import axios from "axios";
 
 const MovieDetailPage = (props: any) => {
@@ -24,18 +23,18 @@ const MovieDetailPage = (props: any) => {
 
     const movieID = props.movieID;
 
-    // const updateComment = async () => {
-    //     const res = await axios.get('/api/comments/' + movieID);
-    //     return res.data.comments;
-    // }
+    const updateComment = async () => {
+        const res = await axios.get('/api/comments/' + movieID);
+        return res.data.comments;
+    }
 
-    // const { data: newComments } = useQuery(['movieID', movieID], updateComment, { enabled: !!movieID });
+    const { data: newComments } = useQuery(['movieID', movieID], updateComment, { enabled: !!movieID });
 
-    // useEffect(() => {
-    //     if (newComments) {
-    //         setComments(newComments);
-    //     }
-    // }, [newComments])
+    useEffect(() => {
+        if (newComments) {
+            setComments(newComments);
+        }
+    }, [newComments])
 
 
     const backgroundImageURL = process.env.NEXT_PUBLIC_BG_IMAGE_URL;
@@ -152,15 +151,15 @@ export async function getStaticProps(context: any) {
     if (!movieID) return { notFound: true }
 
 
-    // const { comments } = await getComments(movieID);
+    const { comments } = await getComments(movieID);
 
 
     return {
         props: {
             dehydratedState: dehydrate(queryClient),
             movieID,
-            // initialComments: comments ? comments : []
-            initialComments: []
+            initialComments: comments ? comments : []
+
         },
         revalidate: 10
     }
