@@ -1,11 +1,22 @@
 import { Box, Button, Card, Grid, Typography } from '@mui/material'
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import FormInput from '../../components/UI/FormInput'
 import { useForm, } from "react-hook-form";
 import axios from 'axios';
 import NotificationContext, { NotificationStatusType } from '../../store/notification-context';
+import { useRouter } from 'next/router';
 
 const LoginPage = () => {
+
+    const router = useRouter();
+
+    useEffect(() => {
+        const { pathname } = router;
+
+        if (pathname !== pathname.toLowerCase()) {
+            router.push(pathname.toLowerCase())
+        }
+    }, [router])
 
     const { handleSubmit, reset, control } = useForm();
 
