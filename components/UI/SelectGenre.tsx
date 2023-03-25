@@ -80,6 +80,7 @@ const StyledListbox = styled('ul')(
     color:white;
     background-color:black;
     position:relative;
+    cursor: pointer;
 
     @media screen and (max-width:640px){
         min-width:200px;
@@ -94,7 +95,7 @@ const StyledOption = styled(OptionUnstyled)(
     list-style: none;
     padding: 8px;
     border-radius: 8px;
-    cursor: default;
+    cursor: pointer;
 
   
     &:last-of-type {

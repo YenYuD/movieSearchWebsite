@@ -13,13 +13,10 @@ const MovieDetailPage = (props: any) => {
     const { initialComments } = props;
 
 
-
     const { dehydratedState: { queries: queryData } } = props;
 
     const movieDetailData = queryData[0].state.data;
 
-    const [showAlert, setShowAlert] = useState(false);
-    const [showSuccess, setShowSuccess] = useState(false);
     const [comments, setComments] = useState(initialComments);
 
     const movieID = props.movieID;
@@ -29,7 +26,7 @@ const MovieDetailPage = (props: any) => {
         return res.data.comments;
     }
 
-    const { data: newComments } = useQuery(['movieID', movieID], updateComment, { enabled: !!movieID });
+    const { data: newComments, refetch } = useQuery(['movieID', movieID], updateComment, { enabled: !!movieID });
 
     useEffect(() => {
         if (newComments) {
@@ -65,14 +62,14 @@ const MovieDetailPage = (props: any) => {
         <Grid>
             <Grid className="relative pt-16 md:pt-32 h-auto  pb-24 sm:pb-40">
                 <Image className="object-cover -z-10 brightness-50" src={`${backgroundImageURL}${movieDetailData.poster_path}`} alt="poster" fill priority={true} />
-                <Grid className="backdrop z-10 w-[90%] sm:w-3/4 m-auto bg-black/50 rounded-3xl flex flex-col  gap-16 p-9">
+                <Grid className="backdrop z-10 w-[95%] sm:w-3/4 m-auto bg-black/50 rounded-3xl flex flex-col  gap-16 p-6 md:p-9">
                     <Grid className="flex flex-col gap-4">
-                        <Grid className="py-8 flex flex-wrap lg:flex-nowrap">
-                            <Grid className="flex w-full justify-center"> <Image className="m-auto" src={`${posterURL}${movieDetailData.poster_path}`} alt="poster" width={300} height={500} priority={true} style={{ width: 'auto' }} /></Grid>
-                            <Grid className="flex flex-col 2xl:shrink-0">
+                        <Grid className=" pb-0  md:py-8 gap-4 flex flex-wrap justify-center lg:flex-nowrap">
+                            <Grid className="flex md:basis-1/2 w-full justify-center"> <Image className="m-auto" src={`${posterURL}${movieDetailData.poster_path}`} alt="poster" width={300} height={500} priority={true} style={{ width: 'auto' }} /></Grid>
+                            <Grid className="flex flex-col md:basis-1/2 2xl:shrink-0">
                                 <Typography variant="h4" align="center" className="pt-8 pb-4" >{movieDetailData.original_title}({movieDetailData.release_date.split('-')[0]})</Typography>
                                 <div className="flex flex-col items-center">
-                                    <Grid className="flex gap-2 flex-wrap">
+                                    <Grid className="flex gap-2 flex-wrap justify-center">
                                         {movieDetailData.genres.map((v: any) => {
                                             return <Chip color="primary" variant="outlined" size="small" key={v.id} label={v.name} />
                                         })}
@@ -83,13 +80,13 @@ const MovieDetailPage = (props: any) => {
                                 </div>
                             </Grid>
                         </Grid>
-                        <Grid>
+                        <Grid className="text-justify">
                             <Typography className="opacity-60 pb-6">{movieDetailData.tagline}</Typography>
                             <Typography variant="h6">Overview</Typography>
                             <Typography className="py-2" >{movieDetailData.overview}</Typography>
                         </Grid>
                     </Grid>
-                    <Divider className="w-full [&>span]:whitespace-normal before:border-t-stone-50 after:border-t-stone-50">
+                    <Divider className="w-full max-md:[&>span]:whitespace-normal  before:border-t-stone-50 after:border-t-stone-50">
                         COMMENTS ABOUT THE MOVIE
                     </Divider>
                     <Grid className="flex flex-col gap-3 justify-between max-h-[40vh] overflow-y-auto">
@@ -98,8 +95,7 @@ const MovieDetailPage = (props: any) => {
                         }) : <Typography component='p' className="text-center">Leave the first comment!</Typography>}
                     </Grid>
                     <Grid className="flex items-stretch gap-6 justify-center md:justify-between flex-wrap 2xl:flex-nowrap ">
-                        <RateMovies movieID={movieID} />
-                        {/* <SuscribeInput showAlert={showAlert} setShowAlert={setShowAlert} showSuccess={showSuccess} setShowSuccess={setShowSuccess} /> */}
+                        <RateMovies movieID={movieID} refetch={refetch} />
                     </Grid>
                 </Grid>
 
@@ -112,20 +108,19 @@ export async function getStaticPaths() {
 
     const { genres: allGenres } = await MovieSearchService.GetAllGernes();
 
-
     const paths: { params: { movieid: string } }[] = [];
 
-    await Promise.all(allGenres.map(async (item: any) => {
+    for (let j = 0; j < allGenres.length; j++) {
+        const item = allGenres[j];
         const { results } = await MovieSearchService.FilterMovieByGenre(1, item.id);
 
-        for (let i of results) {
-            paths.push({ params: { movieid: i.id.toString() } })
+        for (let i = 0; i < results.length; i++) {
+            paths.push({ params: { movieid: results[i].id.toString() } })
         }
-
-    }));
+    }
 
     return {
-        paths: [],
+        paths: paths,
         fallback: 'blocking'
     }
 

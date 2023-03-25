@@ -1,14 +1,16 @@
-import { Alert, Box, Button, Card, Grid, Rating, styled, Typography } from '@mui/material'
+import { Button, Card, Grid, Rating, styled, Typography } from '@mui/material'
 import axios from 'axios'
-import React, { useContext, useEffect, useRef, useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import NotificationContext from '../../store/notification-context'
 import FormInput from './FormInput'
 import UnstyledInputBasic from './TextArea'
 import { NotificationStatusType } from '../../store/notification-context'
+import { QueryObserverResult, RefetchOptions, RefetchQueryFilters } from 'react-query/types/core'
 
 interface RateMovieProps {
     movieID: string
+    refetch: <TPageData>(options?: (RefetchOptions & RefetchQueryFilters<TPageData>) | undefined) => Promise<QueryObserverResult<any, unknown>>
 }
 
 const RateMovies = (props: RateMovieProps) => {
@@ -22,7 +24,7 @@ const RateMovies = (props: RateMovieProps) => {
         }
     });
 
-    const { movieID } = props;
+    const { movieID, refetch } = props;
 
     const WhiteRatingIcon = styled(Rating)({
         '& .MuiRating-icon': {
@@ -97,6 +99,7 @@ const RateMovies = (props: RateMovieProps) => {
             setRateValue(null);
             setComment('')
             reset();
+            refetch();
 
             notificationCtx.showNotification({
                 title: 'success!',
