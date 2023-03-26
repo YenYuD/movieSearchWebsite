@@ -25,13 +25,13 @@ const Hamburger = () => {
                             <Link href="/explore">EXPLORE</Link>
                         </li>
                         <li>
-                            <Link href="/mywatchList">WATCHLIST(developing)</Link>
+                            <Link href="/mywatchList">WATCHLIST(開發中)</Link>
                         </li>
                         {/* <li>
                             <Link href="/about">ABOUT(developing)</Link>
                         </li> */}
                         <li>
-                            <Link href="/login">LOGIN(developing)</Link>
+                            <Link href="/Login">LOGIN(開發中)</Link>
                         </li>
                     </ul>
                 </div>
