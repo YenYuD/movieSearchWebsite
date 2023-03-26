@@ -87,6 +87,10 @@ const StyledListbox = styled('ul')(
         min-width:280px;
     }
 
+    @media screen and (max-width:310px){
+      min-width:215px;
+  }
+
 
     `,
 );

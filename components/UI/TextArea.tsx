@@ -60,7 +60,7 @@ const StyledTextareaElement = styled('textarea', {
   ({ theme }) => `
   // width: 320px;
   letter-spacing:0.2rem;
-  font-size: 0.875rem;
+  font-size: 1rem;
   font-weight: 400;
   line-height: 1.5;
   padding: 12px;

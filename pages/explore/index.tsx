@@ -157,7 +157,7 @@ const Explore = (props: any) => {
                     return (
                         <Fragment key={i}>
                             {group.results.map((item: any) => {
-                                return (<Grid key={item.id} className="relative  lg:w-[calc((70%_-_3rem)/4)]  sm:w-[calc((60%_-_1rem)/2)] w-[80%] pt-[102.57%] phone:max-sm:w-[60%]  phone:max-sm:pt-[78.9%] sm:pt-[43.85%] lg:pt-[25%]  transition-all overflow-hidden [&>img]:hover:brightness-50 [&>div]:hover:top-1/2 ">
+                                return (<Grid key={item.id} className="relative  lg:w-[calc((70%_-_3rem)/4)]  sm:w-[calc((60%_-_1rem)/2)] w-[80%] pt-[102.57%] phone:max-sm:w-[70%]  phone:max-sm:pt-[104.9%] sm:pt-[43.85%] lg:pt-[25%]  transition-all overflow-hidden [&>img]:hover:brightness-50 [&>div]:hover:top-1/2 ">
                                     <Image
                                         {...item.placeholder
                                         }
@@ -193,7 +193,7 @@ const Explore = (props: any) => {
             {searchMode && <Grid className="pt-20 md:px-16 px-4  flex flex-wrap  justify-center gap-4">
                 {!!movieSearchData && movieSearchData.results.map((item: any) => {
                     return (
-                        (<Grid key={item.id} className="relative lg:w-[calc((70%_-_3rem)/4)]  sm:w-[calc((60%_-_1rem)/2)] w-[80%] pt-[102.57%] phone:max-sm:w-[60%]  phone:max-sm:pt-[78.9%] sm:pt-[43.85%] lg:pt-[25%]   transition-all overflow-hidden [&>img]:hover:brightness-50 [&>div]:hover:top-1/2 ">
+                        (<Grid key={item.id} className="relative  lg:w-[calc((70%_-_3rem)/4)]  sm:w-[calc((60%_-_1rem)/2)] w-[80%] pt-[102.57%] phone:max-sm:w-[60%]  phone:max-sm:pt-[78.9%] sm:pt-[43.85%] lg:pt-[25%]  transition-all overflow-hidden [&>img]:hover:brightness-50 [&>div]:hover:top-1/2 ">
                             <Image
                                 {...item.placeholder
                                 }
@@ -207,7 +207,7 @@ const Explore = (props: any) => {
                                 className={`object-cover  ${item.poster_path ? '' : "grayscale brightness-[0.4] object-right-top"} `}
                             />
 
-                            <div className="absolute text-center w-full -bottom-36">
+                            <div className="absolute text-center w-full lg:px-2 -bottom-36">
                                 <Typography>{item.title}</Typography>
                                 <Button
                                     className="mt-10 tracking-widest font-bold"
