@@ -80,10 +80,10 @@ const MovieDetailPage = (props: any) => {
                                 </div>
                             </Grid>
                         </Grid>
-                        <Grid className="text-justify">
+                        <Grid className="text-left">
                             <Typography className="opacity-60 pb-6">{movieDetailData.tagline}</Typography>
-                            <Typography variant="h6">Overview</Typography>
-                            <Typography className="py-2" >{movieDetailData.overview}</Typography>
+                            <Typography variant="h6" className="text-center">Overview</Typography>
+                            <Typography style={{ overflowWrap: 'break-word' }} className="py-2" >{movieDetailData.overview}</Typography>
                         </Grid>
                     </Grid>
                     <Divider className="w-full max-md:[&>span]:whitespace-normal  before:border-t-stone-50 after:border-t-stone-50">

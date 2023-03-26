@@ -20,6 +20,7 @@ const StyledButton = styled('button')(
     text-align: left;
     border: 1px solid white;
     color: white;
+    max-width:320px;
   
     transition-property: all;
     transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
@@ -83,7 +84,7 @@ const StyledListbox = styled('ul')(
     cursor: pointer;
 
     @media screen and (max-width:640px){
-        min-width:200px;
+        min-width:280px;
     }
 
 

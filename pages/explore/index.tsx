@@ -157,7 +157,7 @@ const Explore = (props: any) => {
                     return (
                         <Fragment key={i}>
                             {group.results.map((item: any) => {
-                                return (<Grid key={item.id} className="relative lg:w-[calc((100%_-_3rem)/4)]  sm:w-[calc((100%_-_1rem)/2)] w-full pt-[131.57%] sm:pt-[68.57%] lg:pt-[37.57%]  transition-all overflow-hidden [&>img]:hover:brightness-50 [&>div]:hover:top-1/2 ">
+                                return (<Grid key={item.id} className="relative  lg:w-[calc((70%_-_3rem)/4)]  sm:w-[calc((60%_-_1rem)/2)] w-[80%] pt-[102.57%] phone:max-sm:w-[60%]  phone:max-sm:pt-[78.9%] sm:pt-[43.85%] lg:pt-[25%]  transition-all overflow-hidden [&>img]:hover:brightness-50 [&>div]:hover:top-1/2 ">
                                     <Image
                                         {...item.placeholder
                                         }
@@ -193,7 +193,7 @@ const Explore = (props: any) => {
             {searchMode && <Grid className="pt-20 md:px-16 px-4  flex flex-wrap  justify-center gap-4">
                 {!!movieSearchData && movieSearchData.results.map((item: any) => {
                     return (
-                        (<Grid key={item.id} className="relative lg:w-[calc((100%_-_3rem)/4)]  sm:w-[calc((100%_-_1rem)/2)] w-full pt-[131.57%] sm:pt-[68.57%] lg:pt-[37.57%]  transition-all overflow-hidden [&>img]:hover:brightness-50 [&>div]:hover:top-1/2 ">
+                        (<Grid key={item.id} className="relative scale-75 lg:w-[calc((100%_-_3rem)/4)]  sm:w-[calc((100%_-_1rem)/2)] w-full pt-[131.57%] sm:pt-[68.57%] lg:pt-[37.57%]  transition-all overflow-hidden [&>img]:hover:brightness-50 [&>div]:hover:top-1/2 ">
                             <Image
                                 {...item.placeholder
                                 }
@@ -204,7 +204,7 @@ const Explore = (props: any) => {
                                 sizes="(max-width: 768px) 100vw,
                                         (max-width: 1200px) 50vw,
                                         33vw"
-                                className={`object-cover ${item.poster_path ? '' : "grayscale brightness-[0.4] object-right-top"} `}
+                                className={`object-cover  ${item.poster_path ? '' : "grayscale brightness-[0.4] object-right-top"} `}
                             />
 
                             <div className="absolute text-center w-full -bottom-36">
