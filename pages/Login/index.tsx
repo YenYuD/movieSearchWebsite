@@ -8,15 +8,6 @@ import { useRouter } from 'next/router';
 
 const LoginPage = () => {
 
-    const router = useRouter();
-
-    useEffect(() => {
-        const { pathname } = router;
-
-        if (pathname !== pathname.toLowerCase()) {
-            router.push(pathname.toLowerCase())
-        }
-    }, [router])
 
     const { handleSubmit, reset, control } = useForm();
 

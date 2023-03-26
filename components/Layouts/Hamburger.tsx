@@ -17,7 +17,7 @@ const Hamburger = () => {
                     <div className="text-end mb-6" onClick={() => { setNavOpen(false) }}>
                         <ClearIcon />
                     </div>
-                    <ul className="flex flex-col gap-8 text-transparent bg-gradient-to-r from-sky-100 to-sky-200 bg-clip-text sm:text-sm lg:text-2xl">
+                    <ul className="flex flex-col uppercase gap-8 text-transparent bg-gradient-to-r from-sky-100 to-sky-200 bg-clip-text sm:text-sm lg:text-2xl">
                         <li>
                             <Link href="/">HOMEPAGE</Link>
                         </li>
@@ -25,13 +25,13 @@ const Hamburger = () => {
                             <Link href="/explore">EXPLORE</Link>
                         </li>
                         <li>
-                            <Link href="/mywatchList">WATCHLIST</Link>
+                            <Link href="/mywatchList">WATCHLIST(developing)</Link>
                         </li>
                         {/* <li>
-                            <Link href="/about">ABOUT</Link>
+                            <Link href="/about">ABOUT(developing)</Link>
                         </li> */}
                         <li>
-                            <Link href="/login">LOGIN</Link>
+                            <Link href="/login">LOGIN(developing)</Link>
                         </li>
                     </ul>
                 </div>
