@@ -4,11 +4,13 @@ import Hamburger from "./Hamburger";
 
 const NavBar = () => {
 
-    const [showNav, setShowNav] = useState(false);
+    const [showNav, setShowNav] = useState(true);
 
     const nav = useRef(null);
 
     const handleScroll = () => {
+
+        let previousScrollY = 0;
 
         const scrollY = window.scrollY;
 
@@ -25,7 +27,7 @@ const NavBar = () => {
         previousScrollY = scrollY;
     };
 
-    let previousScrollY = 0;
+
 
     useEffect(() => {
 
