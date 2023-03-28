@@ -89,7 +89,7 @@ const MovieDetailPage = (props: any) => {
                                         <Typography className="py-4">{timeConvert(movieDetailData.runtime)}</Typography>
                                     </Grid>
                                     <Typography className="self-start my-1">Casts:</Typography>
-                                    <Grid className="w-[200px] phone:w-[350px]  md:w-[530px] 2xl:w-[35vw] overflow-x-auto flex">
+                                    <Grid className="w-[80vw] phone:w-[350px]  md:w-[530px] 2xl:w-[35vw] overflow-x-auto flex">
                                         <Grid className="flex gap-2 ">
                                             <Cast castData={castData} />
                                         </Grid>

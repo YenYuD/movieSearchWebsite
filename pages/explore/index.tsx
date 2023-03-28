@@ -17,6 +17,7 @@ import FormInput from "../../components/UI/FormInput";
 import { useForm } from "react-hook-form";
 import HighlightOffOutlinedIcon from '@mui/icons-material/HighlightOffOutlined';
 import React from "react";
+import { ButtonUnstyled } from "@mui/base";
 
 
 
@@ -33,8 +34,26 @@ const Explore = (props: any) => {
     const { state: { data: { genres: initalGenre } } } = queryData ? queryData[0] : [];
 
 
-
     const [genre, setGenre] = useState<number>(initalGenre && initalGenre[0].id);
+    const [showBtn, setShowBtn] = useState(false);
+
+    const handleScroll = () => {
+        if (window.pageYOffset > 0) {
+            setShowBtn(true);
+        } else {
+            setShowBtn(false);
+        }
+    };
+
+    useEffect(() => {
+
+        window.addEventListener('scroll', handleScroll);
+
+        return () => window.removeEventListener("scroll", handleScroll);
+
+    }, [])
+
+
     const [searchMode, setSearchMode] = useState(false);
     const fallbackSrc = '/images/404.jpg'
 
@@ -224,6 +243,13 @@ const Explore = (props: any) => {
                 }
                 )}
             </Grid>}
+            <ButtonUnstyled className={`${showBtn ? '' : 'hidden'} before:content-['^'] before:animate-bounce before:absolute before:top-1 before:left-[41%] before:text-lg p-4 border border-white rounded-full fixed bottom-6 right-6`} onClick={() => {
+                window.scrollTo({
+                    top: 0,
+                    left: 0,
+                    behavior: 'smooth'
+                });
+            }}>top</ButtonUnstyled>
             <Grid className="flex justify-center py-6">
                 {isFetchingNextPage && <CircularProgress color="primary" />}
             </Grid>
