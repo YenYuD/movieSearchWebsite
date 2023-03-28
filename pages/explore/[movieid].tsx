@@ -7,19 +7,30 @@ import Head from "next/head";
 import RateMovies from "../../components/UI/RateMovies";
 import Comment from "../../components/UI/Comments";
 import axios from "axios";
+import Cast from "../../components/UI/Cast";
 
 const MovieDetailPage = (props: any) => {
 
     const { initialComments } = props;
 
+    const movieID = props.movieID;
 
-    const { dehydratedState: { queries: queryData } } = props;
+    const qkMovieData = [MovieSearchService.GetMovieDataByID.fnName, movieID];
 
-    const movieDetailData = queryData[0].state.data;
+    const { data: movieDetailData } = useQuery(qkMovieData, async () => {
+        const data = await MovieSearchService.GetMovieDataByID(movieID!);
+        return data;
+    })
+
+    const qkMovieCast = [MovieSearchService.GetCast.fnName, movieID];
+
+    const { data: castData } = useQuery(qkMovieCast, async () => {
+        const data = await MovieSearchService.GetCast(movieID!);
+        return data;
+    })
 
     const [comments, setComments] = useState(initialComments);
 
-    const movieID = props.movieID;
 
     const updateComment = async () => {
         const res = await axios.get('/api/comments/' + movieID);
@@ -65,7 +76,7 @@ const MovieDetailPage = (props: any) => {
                 <Grid className="backdrop z-10 w-[95%] sm:w-3/4 m-auto bg-black/50 rounded-3xl flex flex-col  gap-16 p-6 md:p-9">
                     <Grid className="flex flex-col gap-4">
                         <Grid className=" pb-0  md:py-8 gap-4 flex flex-wrap justify-center lg:flex-nowrap">
-                            <Grid className="flex md:basis-1/2 w-full justify-center"> <Image className="m-auto" src={`${posterURL}${movieDetailData.poster_path}`} alt="poster" width={300} height={500} priority={true} style={{ width: 'auto' }} /></Grid>
+                            <Grid className="flex md:basis-1/2 max-w-full w-full justify-center"> <Image className="m-auto" src={`${posterURL}${movieDetailData.poster_path}`} alt="poster" width={300} height={500} priority={true} style={{ width: 'auto' }} /></Grid>
                             <Grid className="flex flex-col md:basis-1/2 2xl:shrink-0">
                                 <Typography variant="h4" align="center" className="pt-8 pb-4" >{movieDetailData.original_title}({movieDetailData.release_date.split('-')[0]})</Typography>
                                 <div className="flex flex-col items-center">
@@ -77,13 +88,19 @@ const MovieDetailPage = (props: any) => {
                                     <Grid>
                                         <Typography className="py-4">{timeConvert(movieDetailData.runtime)}</Typography>
                                     </Grid>
+                                    <Typography className="self-start my-1">Casts:</Typography>
+                                    <Grid className="w-[200px] phone:w-[350px]  md:w-[530px] 2xl:w-[35vw] overflow-x-auto flex">
+                                        <Grid className="flex gap-2 ">
+                                            <Cast castData={castData} />
+                                        </Grid>
+                                    </Grid>
                                 </div>
                             </Grid>
                         </Grid>
                         <Grid className="text-left">
                             <Typography className="opacity-60 pb-6">{movieDetailData.tagline}</Typography>
                             <Typography variant="h6" className="text-center">Overview</Typography>
-                            <Typography style={{ overflowWrap: 'break-word' }} className="py-2" >{movieDetailData.overview}</Typography>
+                            <Typography style={{ overflowWrap: 'break-word' }} className="py-2 2xl:px-52  2xl:text-center" >{movieDetailData.overview}</Typography>
                         </Grid>
                     </Grid>
                     <Divider className="w-full max-md:[&>span]:whitespace-normal  before:border-t-stone-50 after:border-t-stone-50">
@@ -135,13 +152,19 @@ export async function getStaticProps(context: any) {
 
     const qkMovieData = [MovieSearchService.GetMovieDataByID.fnName, movieID];
 
+    const qkMovieCase = [MovieSearchService.GetCast.fnName, movieID];
+
     try {
         await queryClient.prefetchQuery(qkMovieData, async () => {
             const data = await MovieSearchService.GetMovieDataByID(movieID!);
             return data;
         });
-    } catch {
-
+        await queryClient.prefetchQuery(qkMovieCase, async () => {
+            const data = await MovieSearchService.GetCast(movieID);
+            return data;
+        })
+    } catch (err) {
+        console.log(err);
     }
 
     if (!movieID) return { notFound: true }

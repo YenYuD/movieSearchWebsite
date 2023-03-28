@@ -10,6 +10,7 @@ export const MovieSearchService = {
     GetAllGernes,
     FilterMovieByGenre,
     SearchMovie,
+    GetCast,
 };
 
 export const api_key = process.env.NEXT_PUBLIC_REACT_APP_API_KEY;
@@ -87,3 +88,18 @@ async function SearchMovie(keywords: string) {
     return res.data;
 }
 SearchMovie.fnName = "MovieSearchService.SearchMovie";
+
+async function GetCast(movieID: string) {
+    const url = urlJoin(PATHNAME_PREFIX, "movie", movieID, "credits");
+
+    const res = await axios.get(url, {
+        params: {
+            api_key,
+            sort_by: "popularity.desc",
+            include_adult: false,
+            language: "en-US",
+        },
+    });
+    return res.data;
+}
+GetCast.fnName = "MovieSearchService.GetCast";
