@@ -5,37 +5,32 @@ import Hamburger from "./Hamburger";
 const NavBar = () => {
 
     const [showNav, setShowNav] = useState(true);
+    const [lastScrollY, setLastScrollY] = useState(0);
 
     const nav = useRef(null);
 
-    const handleScroll = () => {
+    const controlNavbar = () => {
+        if (typeof window !== 'undefined') {
+            if (window.scrollY > lastScrollY) { // if scroll down hide the navbar
+                setShowNav(false);
+            } else { // if scroll up show the navbar
+                setShowNav(true);
+            }
 
-        let previousScrollY = 0;
-
-        const scrollY = window.scrollY;
-
-        if (scrollY === 0) {
-            setShowNav(true);
+            // remember current page location to use in the next move
+            setLastScrollY(window.scrollY);
         }
-
-        if (scrollY < previousScrollY) {
-            setShowNav(true);
-        } else {
-            setShowNav(false);
-        }
-
-        previousScrollY = scrollY;
     };
 
 
 
     useEffect(() => {
 
-        window.addEventListener('scroll', handleScroll);
+        window.addEventListener('scroll', controlNavbar);
 
-        return () => window.removeEventListener("scroll", handleScroll);
+        return () => window.removeEventListener("scroll", controlNavbar);
 
-    }, [])
+    }, [lastScrollY, showNav])
 
     return (
         <>
