@@ -11,6 +11,10 @@ import Cast from "../../components/UI/Cast";
 
 const MovieDetailPage = (props: any) => {
 
+    const { locale } = props;
+
+    console.log(locale);
+
     const { initialComments } = props;
 
     const movieID = props.movieID;
@@ -18,16 +22,18 @@ const MovieDetailPage = (props: any) => {
     const qkMovieData = [MovieSearchService.GetMovieDataByID.fnName, movieID];
 
     const { data: movieDetailData } = useQuery(qkMovieData, async () => {
-        const data = await MovieSearchService.GetMovieDataByID(movieID!);
+        const data = await MovieSearchService.GetMovieDataByID(movieID!, locale);
         return data;
     })
+
 
     const qkMovieCast = [MovieSearchService.GetCast.fnName, movieID];
 
     const { data: castData } = useQuery(qkMovieCast, async () => {
-        const data = await MovieSearchService.GetCast(movieID!);
+        const data = await MovieSearchService.GetCast(movieID!, locale);
         return data;
     })
+
 
     const [comments, setComments] = useState(initialComments);
 
@@ -78,7 +84,7 @@ const MovieDetailPage = (props: any) => {
                         <Grid className=" pb-0  md:py-8 gap-4 flex flex-wrap justify-center lg:flex-nowrap">
                             <Grid className="flex md:basis-1/2 max-w-full w-full justify-center"> <Image className="m-auto" src={`${posterURL}${movieDetailData.poster_path}`} alt="poster" width={300} height={500} priority={true} style={{ width: 'auto' }} /></Grid>
                             <Grid className="flex flex-col md:basis-1/2 2xl:shrink-0">
-                                <Typography variant="h4" align="center" className="pt-8 pb-4" >{movieDetailData.original_title}({movieDetailData.release_date.split('-')[0]})</Typography>
+                                <Typography variant="h4" align="center" className="pt-8 pb-4" >{movieDetailData.belongs_to_collection.name}({movieDetailData.release_date.split('-')[0]})</Typography>
                                 <div className="flex flex-col items-center">
                                     <Grid className="flex gap-2 flex-wrap justify-center">
                                         {movieDetailData.genres.map((v: any) => {
@@ -121,7 +127,7 @@ const MovieDetailPage = (props: any) => {
     </>
 }
 
-export async function getStaticPaths() {
+export const getStaticPaths = async () => {
 
     const { genres: allGenres } = await MovieSearchService.GetAllGernes();
 
@@ -130,11 +136,11 @@ export async function getStaticPaths() {
     for (let j = 0; j < allGenres.length; j++) {
         const item = allGenres[j];
         const { results } = await MovieSearchService.FilterMovieByGenre(1, item.id);
-
-        for (let i = 0; i < results.length; i++) {
-            paths.push({ params: { movieid: results[i].id.toString() } })
+        for (let k = 0; k < results.length; k++) {
+            paths.push({ params: { movieid: results[k].id.toString() } })
         }
     }
+
 
     return {
         paths: paths,
@@ -143,8 +149,10 @@ export async function getStaticPaths() {
 
 }
 
-export async function getStaticProps(context: any) {
+export const getStaticProps = async (context: any) => {
     const { params } = context;
+
+    const { locale } = context;
 
     const movieID = params.movieid;
 
@@ -156,11 +164,11 @@ export async function getStaticProps(context: any) {
 
     try {
         await queryClient.prefetchQuery(qkMovieData, async () => {
-            const data = await MovieSearchService.GetMovieDataByID(movieID!);
+            const data = await MovieSearchService.GetMovieDataByID(movieID!, locale);
             return data;
         });
         await queryClient.prefetchQuery(qkMovieCase, async () => {
-            const data = await MovieSearchService.GetCast(movieID);
+            const data = await MovieSearchService.GetCast(movieID, locale);
             return data;
         })
     } catch (err) {
@@ -178,7 +186,8 @@ export async function getStaticProps(context: any) {
         props: {
             dehydratedState: dehydrate(queryClient),
             movieID,
-            initialComments: comments ? comments : []
+            initialComments: comments ? comments : [],
+            locale
         },
         revalidate: 10
     }

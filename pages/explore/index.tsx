@@ -8,7 +8,7 @@ import {
     Typography,
 } from "@mui/material";
 import Link from "next/link";
-import SelectGenre from "../../components/UI/SelectGenre";
+import SelectGenre from "../../components/UI/Select";
 import { Fragment, useCallback, useEffect, useRef, useState } from "react";
 import { getPlaiceholder } from "plaiceholder";
 import Head from "next/head";
@@ -18,6 +18,9 @@ import { useForm } from "react-hook-form";
 import HighlightOffOutlinedIcon from '@mui/icons-material/HighlightOffOutlined';
 import React from "react";
 import { ButtonUnstyled } from "@mui/base";
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
+import Select from "../../components/UI/Select";
+import { GetStaticProps } from "next";
 
 
 
@@ -165,9 +168,10 @@ const Explore = (props: any) => {
                     }}
                 />
                 <Typography component={'p'} color="primary" className="text-center" >or</Typography>
-                <SelectGenre
+                <Select
                     className="phone:w-[80%] md:w-1/2 sm:w-1/2"
                     options={initalGenre}
+                    defaultOptionLabel="genre"
                     onChange={handleGenreOnChange}
                 />
             </Grid>
@@ -259,7 +263,7 @@ const Explore = (props: any) => {
     );
 };
 
-export async function getStaticProps() {
+export const getStaticProps: GetStaticProps<any> = async ({ locale }) => {
     const queryClient = new QueryClient();
 
     const initalGenreID = 28
@@ -296,6 +300,9 @@ export async function getStaticProps() {
 
     return {
         props: {
+            ...(await serverSideTranslations(locale!, [
+                'common', 'Nav',
+            ])),
             dehydratedState: dehydrate(queryClient),
         },
         revalidate: 60

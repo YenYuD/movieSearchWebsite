@@ -2,9 +2,12 @@ import React from "react";
 import { Button, Grid, Typography } from "@mui/material";
 import Link from "next/link";
 import Image from "next/image";
-
+import { useTranslation, UseTranslation } from "next-i18next";
 
 const FirstBlock = () => {
+
+    const { t } = useTranslation('common');
+
     return (
         <>
             <div className="relative">
@@ -18,10 +21,10 @@ const FirstBlock = () => {
                         <Typography component="h2" className="text-3xl md:text-6xl lg:text-7xl " >SEARCHING</Typography>
                         <Typography component="h2" className="text-3xl md:text-6xl lg:text-7xl" >FOR</Typography>
                         <Typography component="h2" className="text-3xl md:text-6xl lg:text-7xl" >MOVIES?</Typography>
-                        <Typography component="h3" className=" mt-4 md:text-4xl lg:text-3xl">WELCOME TO MOVIE SEARCH WEBSITE.</Typography>
+                        <Typography component="h3" className=" mt-4 md:text-4xl lg:text-3xl">{t('welcome')}</Typography>
                     </Grid>
                     <Grid>
-                        <Button variant="outlined" color="primary" className="my-10 tracking-widest font-bold"><Link href="/explore">Get Started</Link></Button>
+                        <Button variant="outlined" color="primary" className="my-10 tracking-widest font-bold"><Link href="/explore">{t('started')}</Link></Button>
                     </Grid>
                 </Grid>
             </div>

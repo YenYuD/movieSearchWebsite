@@ -22,7 +22,7 @@ class MyDocument extends Document {
     render() {
         return (
             <Html className="h-full">
-                <Head lang="en" />
+                <Head lang="zh-TW" />
                 <body className="relative min-h-screen">
                     <div id="overlay"></div>
                     <Main />

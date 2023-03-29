@@ -1,8 +1,11 @@
 import React, { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import Hamburger from "./Hamburger";
+import { useTranslation } from 'next-i18next';
 
-const NavBar = () => {
+const NavBar = (props: any) => {
+
+    const { t } = useTranslation('Nav');
 
     const [showNav, setShowNav] = useState(true);
     const [lastScrollY, setLastScrollY] = useState(0);
@@ -40,19 +43,19 @@ const NavBar = () => {
                     <div className="h-14 w-full ">
                         <ul className="flex text-transparent justify-between gap-6 md:gap-2 lg:justify-between bg-gradient-to-r from-sky-100 to-sky-200 bg-clip-text sm:text-sm lg:text-2xl lg:gap-16">
                             <li>
-                                <Link href="/">HOMEPAGE</Link>
+                                <Link href="/">{t('HomePage')}</Link>
                             </li>
                             <li>
-                                <Link href="/explore">EXPLORE</Link>
+                                <Link href="/explore">{t('Explore')}</Link>
                             </li>
                             <li>
-                                <Link href="/mywatchList">WATCHLIST</Link>
+                                <Link href="/mywatchList">{t('WatchList')}</Link>
                             </li>
                             {/* <li>
                                 <Link href="/about">ABOUT</Link>
                             </li> */}
                             <li>
-                                <Link href="/Login">LOGIN</Link>
+                                <Link href="/Login">{t('Login')}</Link>
                             </li>
                         </ul>
                     </div>

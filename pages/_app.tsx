@@ -10,8 +10,10 @@ import Head from "next/head";
 import { ThemeOptions } from "@mui/material";
 import { NotificationContextProvider } from "../store/notification-context";
 import React from 'react'
+import { appWithTranslation } from 'next-i18next'
 
-export default function App({ Component, pageProps }: AppProps) {
+
+const App = ({ Component, pageProps }: AppProps) => {
   const theme: ThemeOptions = createTheme({
     typography: {
       fontFamily: ["Antic Didone", "serif"].join(","),
@@ -61,3 +63,5 @@ export default function App({ Component, pageProps }: AppProps) {
     </>
   );
 }
+
+export default appWithTranslation(App);

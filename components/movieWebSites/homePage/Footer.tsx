@@ -1,6 +1,10 @@
 import React from "react";
+import Select from "../../UI/Select";
 
 const Footer = () => {
+
+
+
     return (
         <>
             <div className=" text-xs lg:text-sm ">

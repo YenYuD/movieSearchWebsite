@@ -15,12 +15,12 @@ export const MovieSearchService = {
 
 export const api_key = process.env.NEXT_PUBLIC_REACT_APP_API_KEY;
 
-async function GetMovieDataByID(movieID: string) {
+async function GetMovieDataByID(movieID: string, locale?: string) {
     const url = urlJoin(PATHNAME_PREFIX, "movie", movieID);
     const res = await axios.get(url, {
         params: {
             api_key,
-            language: "en-US",
+            language: locale,
         },
     });
     return res.data;
@@ -56,12 +56,16 @@ async function GetAllGernes() {
 
 GetAllGernes.fnName = "MovieSearchService.GetAllGernes";
 
-async function FilterMovieByGenre(page: number = 1, genre?: number) {
+async function FilterMovieByGenre(
+    page: number = 1,
+    genre?: number,
+    locale?: string
+) {
     const url = urlJoin(PATHNAME_PREFIX, "discover/movie");
     const res = await axios.get(url, {
         params: {
             api_key,
-            language: "en-US",
+            language: locale,
             sort_by: "popularity.desc",
             include_adult: false,
             include_video: false,
@@ -89,7 +93,7 @@ async function SearchMovie(keywords: string) {
 }
 SearchMovie.fnName = "MovieSearchService.SearchMovie";
 
-async function GetCast(movieID: string) {
+async function GetCast(movieID: string, locale: string) {
     const url = urlJoin(PATHNAME_PREFIX, "movie", movieID, "credits");
 
     const res = await axios.get(url, {
@@ -97,7 +101,7 @@ async function GetCast(movieID: string) {
             api_key,
             sort_by: "popularity.desc",
             include_adult: false,
-            language: "en-US",
+            language: locale,
         },
     });
     return res.data;

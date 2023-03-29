@@ -156,13 +156,13 @@ const CustomSelect = React.forwardRef(function CustomSelect<
 
 
 
-const SelectGenre = (props: any) => {
+const Select = (props: any) => {
 
 
   return (
     <>
       <CustomSelect defaultValue={0} onChange={props.onChange} className={props.clasName}>
-        <StyledOption value={0} disabled label='genre' ></StyledOption>
+        <StyledOption value={0} disabled label={props.defaultOptionLabel} ></StyledOption>
         {props.options.map((v: any) =>
           <StyledOption key={v.id} value={v.id}>{v.name}</StyledOption>
         )}
@@ -172,4 +172,4 @@ const SelectGenre = (props: any) => {
   )
 }
 
-export default SelectGenre
+export default Select
