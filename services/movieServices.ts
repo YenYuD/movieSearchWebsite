@@ -79,7 +79,7 @@ async function FilterMovieByGenre(
 
 FilterMovieByGenre.fnName = "MovieSearchService.FilterMovieByGenre";
 
-async function SearchMovie(keywords: string) {
+async function SearchMovie(keywords: string, locale: string) {
     const url = urlJoin(PATHNAME_PREFIX, "search/movie");
     const res = await axios.get(url, {
         params: {
@@ -87,6 +87,7 @@ async function SearchMovie(keywords: string) {
             sort_by: "popularity.desc",
             include_adult: false,
             query: keywords,
+            language: locale,
         },
     });
     return res.data;

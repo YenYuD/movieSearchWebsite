@@ -65,13 +65,13 @@ const Explore = (props: any) => {
 
     const keyword = form.watch('keyword')
 
-    const qkFilterMoviesByGenres = [MovieSearchService.FilterMovieByGenre.fnName, genre];
-    const qkSearchMovie = [MovieSearchService.SearchMovie, keyword];
+    const qkFilterMoviesByGenres = [MovieSearchService.FilterMovieByGenre.fnName, genre, locale];
+    const qkSearchMovie = [MovieSearchService.SearchMovie, keyword, locale];
 
     const loader = useRef(null);
 
     const { data: movieSearchData } = useQuery(qkSearchMovie, async () => {
-        const res = await MovieSearchService.SearchMovie(keyword);
+        const res = await MovieSearchService.SearchMovie(keyword, locale);
         return res;
     }, { enabled: !!searchMode });
 
