@@ -26,23 +26,23 @@ const WatchList = (props: PropsType) => {
         return res.data;
     });
 
-    const { data, error } = useSWR('https://nextjs-test-5d6fd-default-rtdb.firebaseio.com/users.json', fetcher);
+    // const { data, error } = useSWR('https://nextjs-test-5d6fd-default-rtdb.firebaseio.com/users.json', fetcher);
 
-    useEffect(() => {
-        setLoading(true);
-        if (data) {
-            const transformedArr = [];
+    // useEffect(() => {
+    //     setLoading(true);
+    //     if (data) {
+    //         const transformedArr = [];
 
-            for (const item in data) {
-                transformedArr.push({ id: item, userID: data[item].userID, birthDay: data[item].birthDay, username: data[item].username })
-            }
+    //         for (const item in data) {
+    //             transformedArr.push({ id: item, userID: data[item].userID, birthDay: data[item].birthDay, username: data[item].username })
+    //         }
 
-            setUser(transformedArr);
-            setLoading(false);
+    //         setUser(transformedArr);
+    //         setLoading(false);
 
-        }
+    //     }
 
-    }, [data])
+    // }, [data])
 
 
     if (loading && !user) return <><Head>
@@ -52,7 +52,7 @@ const WatchList = (props: PropsType) => {
         <link rel="icon" type="image/png" href="/images/popcorn.png" />
     </Head><div>Loading...</div></>
 
-    if (error) return <div>Oops! something went wrong.</div>
+    // if (error) return <div>Oops! something went wrong.</div>
 
     return (
 
@@ -74,26 +74,5 @@ const WatchList = (props: PropsType) => {
 }
 
 
-export async function getStaticProps() {
-
-    const result = await axios.get('https://nextjs-test-5d6fd-default-rtdb.firebaseio.com/users.json').then((res) => {
-        const transformedArr = [];
-
-        const data = res.data;
-
-        for (const item in data) {
-            transformedArr.push({ id: item, userID: data[item].userID, birthDay: data[item].birthDay, username: data[item].username })
-        }
-
-        return transformedArr;
-    });
-
-    return {
-        props: {
-            userData: result
-        },
-        revalidate: 10
-    }
-}
 
 export default WatchList
