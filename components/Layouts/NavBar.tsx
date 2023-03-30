@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import Hamburger from "./Hamburger";
 import { useTranslation } from 'next-i18next';
+import SwitchLang from "../UI/SwitchLang";
 
 const NavBar = (props: any) => {
 
@@ -51,11 +52,11 @@ const NavBar = (props: any) => {
                             <li>
                                 <Link href="/mywatchList">{t('WatchList')}</Link>
                             </li>
-                            {/* <li>
-                                <Link href="/about">ABOUT</Link>
-                            </li> */}
                             <li>
                                 <Link href="/Login">{t('Login')}</Link>
+                            </li>
+                            <li>
+                                <SwitchLang />
                             </li>
                         </ul>
                     </div>

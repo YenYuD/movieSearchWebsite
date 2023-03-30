@@ -1,9 +1,6 @@
 import React from "react";
-import Select from "../../UI/Select";
 
 const Footer = () => {
-
-
 
     return (
         <>
@@ -13,15 +10,6 @@ const Footer = () => {
                         All datas are provided by TMDB movie Database API.
                         <br /> This website is built using Next.js and deployed through Vercel. @author YenYu
                     </div>
-                    {/* <div className="self-center">
-                        <a href="#">instagram</a>
-                    </div>
-                    <div className="self-center">
-                        <a href="#">facebook</a>
-                    </div>
-                    <div className="self-center">
-                        <a href="#">github</a>
-                    </div> */}
                 </div>
             </div>
         </>

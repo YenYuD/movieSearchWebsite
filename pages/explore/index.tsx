@@ -8,7 +8,6 @@ import {
     Typography,
 } from "@mui/material";
 import Link from "next/link";
-import SelectGenre from "../../components/UI/Select";
 import { Fragment, useCallback, useEffect, useRef, useState } from "react";
 import { getPlaiceholder } from "plaiceholder";
 import Head from "next/head";
@@ -21,10 +20,14 @@ import { ButtonUnstyled } from "@mui/base";
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import Select from "../../components/UI/Select";
 import { GetStaticProps } from "next";
-
+import { useTranslation } from "next-i18next";
 
 
 const Explore = (props: any) => {
+
+    const { t } = useTranslation('movieID');
+
+    const { locale } = props;
 
     const form = useForm({
         defaultValues: {
@@ -98,7 +101,7 @@ const Explore = (props: any) => {
     } = useInfiniteQuery(
         qkFilterMoviesByGenres,
         async ({ pageParam = 1 }) => {
-            const data = await MovieSearchService.FilterMovieByGenre(pageParam, genre);
+            const data = await MovieSearchService.FilterMovieByGenre(pageParam, genre, locale);
             return data;
         },
         {
@@ -155,8 +158,8 @@ const Explore = (props: any) => {
                     className="flex w-full phone:w-[80%] md:w-1/2 sm:w-1/2 justify-center"
                     name="keyword"
                     control={form.control}
-                    label="search movie"
-                    placeHolder="search movie"
+                    label={t('search')}
+                    placeHolder={t('search')}
                     InputProps={{
                         endAdornment: (
                             <IconButton
@@ -171,7 +174,7 @@ const Explore = (props: any) => {
                 <Select
                     className="phone:w-[80%] md:w-1/2 sm:w-1/2"
                     options={initalGenre}
-                    defaultOptionLabel="genre"
+                    defaultOptionLabel={t('genre')}
                     onChange={handleGenreOnChange}
                 />
             </Grid>
@@ -202,7 +205,7 @@ const Explore = (props: any) => {
                                             variant="outlined"
                                         >
                                             <Link href={`/explore/${item.id}`}>
-                                                view Detail
+                                                {t('view Detail')}
                                             </Link>
                                         </Button>
                                     </div>
@@ -273,7 +276,7 @@ export const getStaticProps: GetStaticProps<any> = async ({ locale }) => {
     const qkFilterMoviesByGenres = [MovieSearchService.FilterMovieByGenre.fnName, initalGenreID];
 
     await queryClient.prefetchQuery(qkMovieGernes, async () => {
-        const data = await MovieSearchService.GetAllGernes();
+        const data = await MovieSearchService.GetAllGernes(locale!);
         return data;
     });
 
@@ -301,9 +304,10 @@ export const getStaticProps: GetStaticProps<any> = async ({ locale }) => {
     return {
         props: {
             ...(await serverSideTranslations(locale!, [
-                'common', 'Nav',
+                'common', 'Nav', 'movieID'
             ])),
             dehydratedState: dehydrate(queryClient),
+            locale,
         },
         revalidate: 60
     }

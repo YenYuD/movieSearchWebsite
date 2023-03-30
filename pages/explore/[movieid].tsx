@@ -8,12 +8,15 @@ import RateMovies from "../../components/UI/RateMovies";
 import Comment from "../../components/UI/Comments";
 import axios from "axios";
 import Cast from "../../components/UI/Cast";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import { useTranslation } from "next-i18next";
+import { ButtonUnstyled } from "@mui/base";
 
 const MovieDetailPage = (props: any) => {
 
-    const { locale } = props;
+    const { t } = useTranslation('movieID');
 
-    console.log(locale);
+    const { locale } = props;
 
     const { initialComments } = props;
 
@@ -36,6 +39,23 @@ const MovieDetailPage = (props: any) => {
 
 
     const [comments, setComments] = useState(initialComments);
+    const [showBtn, setShowBtn] = useState(false);
+
+    const handleScroll = () => {
+        if (window.scrollY > 0) {
+            setShowBtn(true);
+        } else {
+            setShowBtn(false);
+        }
+    };
+
+    useEffect(() => {
+
+        window.addEventListener('scroll', handleScroll);
+
+        return () => window.removeEventListener("scroll", handleScroll);
+
+    }, [])
 
 
     const updateComment = async () => {
@@ -84,7 +104,7 @@ const MovieDetailPage = (props: any) => {
                         <Grid className=" pb-0  md:py-8 gap-4 flex flex-wrap justify-center lg:flex-nowrap">
                             <Grid className="flex md:basis-1/2 max-w-full w-full justify-center"> <Image className="m-auto" src={`${posterURL}${movieDetailData.poster_path}`} alt="poster" width={300} height={500} priority={true} style={{ width: 'auto' }} /></Grid>
                             <Grid className="flex flex-col md:basis-1/2 2xl:shrink-0">
-                                <Typography variant="h4" align="center" className="pt-8 pb-4" >{movieDetailData.belongs_to_collection.name}({movieDetailData.release_date.split('-')[0]})</Typography>
+                                <Typography variant="h4" align="center" className="pt-8 pb-4" >{movieDetailData.title}({movieDetailData.release_date.split('-')[0]})</Typography>
                                 <div className="flex flex-col items-center">
                                     <Grid className="flex gap-2 flex-wrap justify-center">
                                         {movieDetailData.genres.map((v: any) => {
@@ -94,7 +114,7 @@ const MovieDetailPage = (props: any) => {
                                     <Grid>
                                         <Typography className="py-4">{timeConvert(movieDetailData.runtime)}</Typography>
                                     </Grid>
-                                    <Typography className="self-start my-1">Casts:</Typography>
+                                    <Typography className="self-start my-1">{t('cast')}:</Typography>
                                     <Grid className="w-[80vw] phone:w-[350px]  md:w-[530px] 2xl:w-[35vw] overflow-x-auto flex">
                                         <Grid className="flex gap-2 ">
                                             <Cast castData={castData} />
@@ -105,31 +125,37 @@ const MovieDetailPage = (props: any) => {
                         </Grid>
                         <Grid className="text-left">
                             <Typography className="opacity-60 pb-6">{movieDetailData.tagline}</Typography>
-                            <Typography variant="h6" className="text-center">Overview</Typography>
+                            <Typography variant="h6" className="text-center">{t('overview')}</Typography>
                             <Typography style={{ overflowWrap: 'break-word' }} className="py-2 2xl:px-52  2xl:text-center" >{movieDetailData.overview}</Typography>
                         </Grid>
                     </Grid>
                     <Divider className="w-full max-md:[&>span]:whitespace-normal  before:border-t-stone-50 after:border-t-stone-50">
-                        COMMENTS ABOUT THE MOVIE
+                        {t('comment')}
                     </Divider>
                     <Grid className="flex flex-col gap-3 justify-between max-h-[40vh] overflow-y-auto">
                         {comments.length ? comments.map((v: any) => {
                             return <Comment key={v._id} id={v.username} rateValue={v.rateValue} comment={v.comment} />
-                        }) : <Typography component='p' className="text-center">Leave the first comment!</Typography>}
+                        }) : <Typography component='p' className="text-center">{t('Leave the first comment')}</Typography>}
                     </Grid>
                     <Grid className="flex items-stretch gap-6 justify-center md:justify-between flex-wrap 2xl:flex-nowrap ">
-                        <RateMovies movieID={movieID} refetch={refetch} />
+                        <RateMovies movieID={movieID} refetch={refetch} t={t} />
                     </Grid>
                 </Grid>
-
+                <ButtonUnstyled className={`${showBtn ? '' : 'hidden'} before:content-['^'] before:animate-bounce before:absolute before:top-1 before:left-[41%] before:text-lg p-4 border border-white rounded-full fixed bottom-12 right-6`} onClick={() => {
+                    window.scrollTo({
+                        top: 0,
+                        left: 0,
+                        behavior: 'smooth'
+                    });
+                }}>top</ButtonUnstyled>
             </Grid>
         </Grid>
     </>
 }
 
-export const getStaticPaths = async () => {
+export const getStaticPaths = async (context: any) => {
 
-    const { genres: allGenres } = await MovieSearchService.GetAllGernes();
+    const { genres: allGenres } = await MovieSearchService.GetAllGernes('en-US');
 
     const paths: { params: { movieid: string } }[] = [];
 
@@ -150,9 +176,7 @@ export const getStaticPaths = async () => {
 }
 
 export const getStaticProps = async (context: any) => {
-    const { params } = context;
-
-    const { locale } = context;
+    const { params, locale } = context;
 
     const movieID = params.movieid;
 
@@ -184,6 +208,9 @@ export const getStaticProps = async (context: any) => {
 
     return {
         props: {
+            ...(await serverSideTranslations(locale!, [
+                'Nav', 'movieID'
+            ])),
             dehydratedState: dehydrate(queryClient),
             movieID,
             initialComments: comments ? comments : [],

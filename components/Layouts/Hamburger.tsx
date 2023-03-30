@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import MenuIcon from '@mui/icons-material/Menu';
 import ClearIcon from '@mui/icons-material/Clear';
 import Link from 'next/link';
+import SwitchLang from '../UI/SwitchLang';
 
 const Hamburger = () => {
 
@@ -52,6 +53,9 @@ const Hamburger = () => {
                         </li> */}
                         <li onClick={() => { setNavOpen(false) }}>
                             <Link href="/Login">LOGIN(開發中)</Link>
+                        </li>
+                        <li>
+                            <SwitchLang />
                         </li>
                     </ul>
                 </div>

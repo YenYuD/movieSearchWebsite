@@ -2,7 +2,7 @@ import React from "react";
 import { Button, Grid, Typography } from "@mui/material";
 import Link from "next/link";
 import Image from "next/image";
-import { useTranslation, UseTranslation } from "next-i18next";
+import { useTranslation } from "next-i18next";
 
 const FirstBlock = () => {
 

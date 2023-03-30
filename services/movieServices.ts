@@ -43,12 +43,12 @@ async function GetPopularMovies() {
 
 GetPopularMovies.fnName = "MovieSearchService.GetPopularMovies";
 
-async function GetAllGernes() {
+async function GetAllGernes(locale: string) {
     const url = urlJoin(PATHNAME_PREFIX, "genre/movie/list");
     const res = await axios.get(url, {
         params: {
             api_key,
-            language: "en-US",
+            language: locale,
         },
     });
     return res.data;
