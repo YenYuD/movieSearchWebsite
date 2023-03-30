@@ -17,7 +17,7 @@ const SwitchLang = () => {
   const locales = router.locales ?? [currentLanguage];
 
   const languageNames = useMemo(() => {
-    return new Intl.DisplayNames([currentLanguage], {
+    return new Intl.DisplayNames(currentLanguage, {
       type: 'language',
     });
   }, [currentLanguage]);
