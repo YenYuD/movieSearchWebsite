@@ -29,8 +29,6 @@ const Explore = (props: any) => {
 
     const { locale } = props;
 
-    console.log(locale);
-
     const form = useForm({
         defaultValues: {
             keyword: ''

@@ -44,8 +44,8 @@ const SwitchLang = () => {
           letter-spacing:3px;
           border-radius: 5px;
           text-align: left;
-          color: white;
           max-width:320px;
+          background:inherit;
         
           transition-property: all;
           transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
