@@ -1,7 +1,12 @@
 import Document, { Html, Head, Main, NextScript, DocumentContext } from "next/document";
 import React from "react";
+
+let locale = "";
 class MyDocument extends Document {
     static async getInitialProps(ctx: DocumentContext) {
+
+        locale = ctx.locale ? ctx.locale : 'zh-TW';
+
         const originalRenderPage = ctx.renderPage;
 
         // Run the React rendering logic synchronously
@@ -19,10 +24,11 @@ class MyDocument extends Document {
         return initialProps;
     }
 
+
     render() {
         return (
             <Html className="h-full">
-                <Head lang="en" />
+                <Head lang={locale} />
                 <body className="relative min-h-screen">
                     <div id="overlay"></div>
                     <Main />
