@@ -271,9 +271,9 @@ export const getStaticProps: GetStaticProps<any> = async ({ locale }) => {
 
     const initalGenreID = 28
 
-    const qkMovieGernes = [MovieSearchService.GetAllGernes.fnName];
+    const qkMovieGernes = [MovieSearchService.GetAllGernes.fnName, locale];
 
-    const qkFilterMoviesByGenres = [MovieSearchService.FilterMovieByGenre.fnName, initalGenreID];
+    const qkFilterMoviesByGenres = [MovieSearchService.FilterMovieByGenre.fnName, initalGenreID, locale];
 
     await queryClient.prefetchQuery(qkMovieGernes, async () => {
         const data = await MovieSearchService.GetAllGernes(locale!);
@@ -281,7 +281,7 @@ export const getStaticProps: GetStaticProps<any> = async ({ locale }) => {
     });
 
     await queryClient.prefetchQuery(qkFilterMoviesByGenres, async () => {
-        const data = await MovieSearchService.FilterMovieByGenre(initalGenreID);
+        const data = await MovieSearchService.FilterMovieByGenre(1, initalGenreID, locale);
         const imagePaths = data.results.map((item: any) => process.env.POSTER_URL + item.poster_path);
         const placeholderPromises = imagePaths.map(async (item: string) => {
             const { base64 } = await getPlaiceholder(item);
@@ -304,7 +304,7 @@ export const getStaticProps: GetStaticProps<any> = async ({ locale }) => {
     return {
         props: {
             ...(await serverSideTranslations(locale!, [
-                'common', 'Nav', 'movieID'
+                'Nav', 'movieID'
             ])),
             dehydratedState: dehydrate(queryClient),
             locale,

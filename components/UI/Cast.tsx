@@ -5,7 +5,9 @@ import React from 'react'
 
 const Cast = (props: any) => {
 
-    const { castData: { cast } } = props;
+    const { castData } = props;
+
+    const cast = castData ? castData.cast : [];
 
     const fallbackSrc = '/images/404.jpg'
 

@@ -22,7 +22,7 @@ const MovieDetailPage = (props: any) => {
 
     const movieID = props.movieID;
 
-    const qkMovieData = [MovieSearchService.GetMovieDataByID.fnName, movieID];
+    const qkMovieData = [MovieSearchService.GetMovieDataByID.fnName, movieID, locale];
 
     const { data: movieDetailData } = useQuery(qkMovieData, async () => {
         const data = await MovieSearchService.GetMovieDataByID(movieID!, locale);
@@ -30,12 +30,13 @@ const MovieDetailPage = (props: any) => {
     })
 
 
-    const qkMovieCast = [MovieSearchService.GetCast.fnName, movieID];
+    const qkMovieCast = [MovieSearchService.GetCast.fnName, movieID, locale];
 
-    const { data: castData } = useQuery(qkMovieCast, async () => {
+    const { data: castData
+    } = useQuery(qkMovieCast, async () => {
         const data = await MovieSearchService.GetCast(movieID!, locale);
         return data;
-    })
+    });
 
 
     const [comments, setComments] = useState(initialComments);
