@@ -1,23 +1,21 @@
 import { NextRequest, NextResponse } from "next/server";
-const PUBLIC_FILE = /\.(.*)$/;
+import { authRoute, protectedRoute } from "./router/routes";
 
-export async function middleware(req: NextRequest) {
+export async function middleware(request: NextRequest) {
+    const currentUser = request.cookies.get("currentUser")?.value;
+
     if (
-        req.nextUrl.pathname.startsWith("/_next") ||
-        req.nextUrl.pathname.includes("/api/") ||
-        PUBLIC_FILE.test(req.nextUrl.pathname)
+        protectedRoute.includes(request.nextUrl.pathname) &&
+        (!currentUser || Date.now() > JSON.parse(currentUser).expiredAt)
     ) {
-        return;
+        request.cookies.delete("currentUser");
+        const response = NextResponse.redirect(new URL("/Login", request.url));
+        response.cookies.delete("currentUser");
+
+        return response;
     }
 
-    if (req.nextUrl.locale === "default") {
-        const locale = req.cookies.get("NEXT_LOCALE")?.value || "en";
-
-        return NextResponse.redirect(
-            new URL(
-                `/${locale}${req.nextUrl.pathname}${req.nextUrl.search}`,
-                req.url
-            )
-        );
+    if (authRoute.includes(request.nextUrl.pathname) && currentUser) {
+        return NextResponse.redirect(new URL("/mywatchList", request.url));
     }
 }

@@ -156,15 +156,17 @@ const MovieDetailPage = (props: any) => {
 
 export const getStaticPaths = async (context: any) => {
 
-    const { genres: allGenres } = await MovieSearchService.GetAllGernes('en-US');
+    const { locales, defaultLocale } = context;
 
-    const paths: { params: { movieid: string } }[] = [];
+    const { genres: allGenres } = await MovieSearchService.GetAllGernes(defaultLocale);
+
+    const paths: { params: { movieid: string, locale: string } }[] = [];
 
     for (let j = 0; j < allGenres.length; j++) {
         const item = allGenres[j];
-        const { results } = await MovieSearchService.FilterMovieByGenre(1, item.id);
+        const { results } = await MovieSearchService.FilterMovieByGenre(1, item.id, defaultLocale);
         for (let k = 0; k < results.length; k++) {
-            paths.push({ params: { movieid: results[k].id.toString() } })
+            paths.push({ params: { movieid: results[k].id.toString(), locale: defaultLocale } })
         }
     }
 

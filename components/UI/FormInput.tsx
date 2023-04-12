@@ -58,15 +58,14 @@ const FormInput = (props: any) => {
             <Controller
                 name={props.name}
                 control={props.control}
-                render={({ field: { onChange, value } }) => (
+                render={({ field: { ref, ...field } }) => (
                     <CustomInput
+                        {...field}
                         autoComplete='false'
                         onFocus={props.onFocus}
                         className={props.className}
-                        onChange={onChange}
                         type={props.type}
                         required={props.required}
-                        value={value}
                         defaultValue={props.defaultValue}
                         placeholder={props.placeHolder}
                         disabled={props.disabled}
